@@ -7,5 +7,6 @@ router.get('/api/utilisateur', utilisateurCtrl.getAllUtilisateur)
 router.get('/api/utilisateur/:id', utilisateurCtrl.getOneUtilisateur);
 router.put('/api/utilisateur/:id', utilisateurCtrl.modifyUtilisateur);
 router.delete('/api/utilisateur/:id', utilisateurCtrl.deleteUtilisateur);
-
+router.post('/signup', userCtrl.signup)
+router.post('/login', utilisateurCtrl.login)
 module.exports = router;
