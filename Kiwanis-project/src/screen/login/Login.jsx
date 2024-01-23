@@ -1,12 +1,30 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
+import { auth } from "../../../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const Login = ({ toggleAuthMode }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+	const Auth = auth;
 
-	const handleLogin = () => {
-		// Logic for handling login
+	const handleLogin = async () => {
+		setIsLoading(true);
+		console.log(username, password);
+		console.log(Auth);
+		try {
+			const response = await signInWithEmailAndPassword(
+				Auth,
+				username,
+				password
+			);
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
