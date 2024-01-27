@@ -10,3 +10,4 @@ router.delete('/api/utilisateur/:id', utilisateurCtrl.deleteUtilisateur);
 router.post('/signup', userCtrl.signup)
 router.post('/login', utilisateurCtrl.login)
 module.exports = router;
+

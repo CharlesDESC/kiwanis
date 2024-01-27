@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const photoRoute = require('./Routes/photo')
 const voteRoute= require('./Routes/vote')
 const utilisateurRoute= require('./Routes/utilisateur')
