@@ -1,5 +1,4 @@
 'use strict';
-
 const firebase = require('../db');
 const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('firebase/firestore');
 const User = require('../models/User');
@@ -49,7 +48,6 @@ const getUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         const userRef = doc(firestore, 'users', id); 
-
         const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists()) {
@@ -66,11 +64,10 @@ const updateUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         const data = req.body;
-
-        const userRef = doc(firestore, 'users', id); // Assuming 'users' is the collection name
+        const userRef = doc(firestore, 'users', id);
         await updateDoc(userRef, data);
 
-        res.send('Student record updated successfully');
+        res.send('User record updated successfully');
     } catch (error) {
         res.status(400).send(error.message);
     }
