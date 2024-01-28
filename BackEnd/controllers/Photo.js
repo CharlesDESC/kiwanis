@@ -1,6 +1,6 @@
 'use strict';
 const firebase = require('../db');
-const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('@firebase/firestore');
 const Photo = require('../models/Photos');
 const firestore = getFirestore(firebase);
 

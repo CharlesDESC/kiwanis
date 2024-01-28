@@ -1,6 +1,6 @@
 'use strict';
 const firebase = require('../db');
-const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('@firebase/firestore');
 const User = require('../models/User');
 const firestore = getFirestore(firebase);
 
@@ -18,7 +18,8 @@ const addUser = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const usersCollection = await getDocs(collection(firestore, 'users'));
+        const usersCollectionRef = collection(firestore, 'users');
+        const usersCollection = await getDocs(usersCollectionRef);
         const usersArray = [];
 
         if (usersCollection.empty) {
