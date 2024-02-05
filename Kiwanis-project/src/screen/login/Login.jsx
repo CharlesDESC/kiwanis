@@ -3,12 +3,19 @@ import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { auth } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
+import { useNavigation } from '@react-navigation/native';
 export const Login = ({ toggleAuthMode }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLogged, setIsLogged] = useState("");
 	const Auth = auth;
+
+	const navigation = useNavigation();
+
+	const handleRegisterNavigation = () => {
+	  navigation.navigate('Register');
+	};
 
 	const handleLogin = async () => {
 		setIsLoading(true);
@@ -56,8 +63,8 @@ export const Login = ({ toggleAuthMode }) => {
 				onChangeText={setPassword}
 			/>
 			<Button title='Login' onPress={handleLogin} />
-			<Button title='Register' onPress={test} />
-			<Text style={{ color: "black" }}>lkqsd {isLogged}</Text>
+
+			<Button title='Register' onPress={handleRegisterNavigation} />
 		</View>
 	);
 };
