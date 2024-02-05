@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { auth } from "../../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 export const Login = ({ toggleAuthMode }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const [isLogged, setIsLogged] = useState("");
 	const Auth = auth;
 
 	const handleLogin = async () => {
@@ -20,11 +21,23 @@ export const Login = ({ toggleAuthMode }) => {
 				password
 			);
 			console.log(response);
+			setIsLogged("true");
 		} catch (error) {
 			console.log(error);
 		} finally {
 			setIsLoading(false);
 		}
+	};
+
+	const test = () => {
+		signOutUser = async () => {
+			try {
+				await signOut(Auth);
+				setIsLogged("false");
+			} catch (e) {
+				console.log(e);
+			}
+		};
 	};
 
 	return (
@@ -43,7 +56,8 @@ export const Login = ({ toggleAuthMode }) => {
 				onChangeText={setPassword}
 			/>
 			<Button title='Login' onPress={handleLogin} />
-			<Button title='Register' onPress={toggleAuthMode} />
+			<Button title='Register' onPress={test} />
+			<Text style={{ color: "black" }}>lkqsd {isLogged}</Text>
 		</View>
 	);
 };

@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import { initializeApp } from "firebase/app";
-import firebaseConfig from "./firebaseConfig";
-
-import { Login } from "./src/screen/login/Login";
+import { StyleSheet, View } from "react-native";
+import { AuthStack } from "./src/navigation/AuthStack";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
 	return (
-		<View style={styles.container}>
-			<Login />
-		</View>
+		<NavigationContainer>
+			<View style={styles.container}>
+				<AuthStack />
+			</View>
+		</NavigationContainer>
 	);
 }
 
