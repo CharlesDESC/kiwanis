@@ -15,6 +15,6 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CONCOURS_PHOTO_KIWANIS }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KIWANIS_TEST_DD86F }}'
           channelId: live
-          projectId: concours-photo-kiwanis
+          projectId: kiwanis-test-dd86f
