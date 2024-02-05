@@ -1,9 +1,9 @@
+
 import { StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 
 import { Login } from "./src/screen/login/Login";
 import { Register } from "./src/screen/register/Register";
