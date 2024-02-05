@@ -1,0 +1,60 @@
+body {
+    text-align: center;
+  }
+  
+  .bienvenue{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin:10px;
+    padding: auto;
+    font-size: 30px;
+    color: black;
+  }
+
+  .ouverture{
+    font-size: 50px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin:10px;
+    padding: auto;
+    color: black;
+  }
+  
+  .App-header {
+    padding-top: 30px;
+    background-color:white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  .Affiche{
+    width:100%;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+
+  @media (max-width:767.98px){
+      .logo{
+    width: 150px;
+  }
+  .bienvenue{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin:10px;
+    padding: auto;
+    font-size: 20px;
+    color: black;
+  }
+
+  .ouverture{
+    font-size: 30px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin:10px;
+    padding: auto;
+    color: black;
+  }
+  }
+
+  
