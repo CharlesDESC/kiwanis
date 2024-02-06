@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { RegisterChildScreen } from "./RegisterChildScreen";
-import { ValidChildScreen } from "./ValidChildScreen";
-import { ParentScreen } from "./ParentScreen";
-import { ValidParentScreen } from "./ValidParentScreen";
+import { RegisterChildScreen } from "../screens/register/RegisterChildScreen";
+import { ValidChildScreen } from "../screens/register/ValidChildScreen";
+import { ParentScreen } from "../screens/register/ParentScreen";
+import { ValidParentScreen } from "../screens/register/ValidParentScreen";
 
 const Stack = createNativeStackNavigator();
 
