@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 
 const RegisterChildScreen = () => {
   const [childName, setChildName] = useState('');
@@ -12,7 +13,7 @@ const RegisterChildScreen = () => {
   const handleRegisterChild = () => {
     const today = new Date();
     const birthDate = new Date(childDateOfBirth);
-    const age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();
     const month = today.getMonth() - birthDate.getMonth();
     if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
       age--;
@@ -35,44 +36,46 @@ const RegisterChildScreen = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Nom de l'enfant"
+        label="Nom de l'enfant"
         value={childName}
         onChangeText={setChildName}
       />
       <TextInput
         style={styles.input}
-        placeholder="Date de naissance (YYYY-MM-DD)"
+        label="Date de naissance (YYYY-MM-DD)"
         value={childDateOfBirth}
         onChangeText={setChildDateOfBirth}
         keyboardType="numeric"
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        label="Email"
         value={childEmail}
         onChangeText={setChildEmail}
         keyboardType="email-address"
       />
       <TextInput
         style={styles.input}
-        placeholder="Téléphone"
+        label="Téléphone"
         value={childPhone}
         onChangeText={setChildPhone}
         keyboardType="phone-pad"
       />
       <TextInput
         style={styles.input}
-        placeholder="Nom de l'école"
+        label="Nom de l'école"
         value={schoolName}
         onChangeText={setSchoolName}
       />
       <TextInput
         style={styles.input}
-        placeholder="Catégorie"
+        label="Catégorie"
         value={category}
         onChangeText={setCategory}
       />
-      <Button title='Valider' onPress={handleRegisterChild} />
+      <Button mode="contained" onPress={handleRegisterChild}>
+        Valider
+      </Button>
     </View>
   );
 };
@@ -85,12 +88,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
     width: '100%',
+    marginBottom: 10,
   },
 });
 
