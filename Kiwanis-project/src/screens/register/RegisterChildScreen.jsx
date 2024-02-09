@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
+import { Picker } from '@react-native-picker/picker';
 import firestore from '@react-native-firebase/firestore';
 
 const RegisterChildScreen = ({ navigation }) => {
@@ -89,12 +90,17 @@ const RegisterChildScreen = ({ navigation }) => {
         value={schoolName}
         onChangeText={setSchoolName}
       />
-      <TextInput
-        style={styles.input}
-        label="Catégorie"
-        value={category}
-        onChangeText={setCategory}
-      />
+      <Picker
+        selectedValue={category}
+        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
+        style={styles.picker}
+        mode="dropdown" 
+      >
+        <Picker.Item label="Choisir une catégorie" value="" />
+        <Picker.Item label="École" value="École" />
+        <Picker.Item label="Collège" value="Collège" />
+        <Picker.Item label="Lycée" value="Lycée" />
+      </Picker>
       <Button mode="contained" onPress={handleRegisterChild}>
         Valider
       </Button>
