@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
+import firestore from '@react-native-firebase/firestore';
 
-const RegisterChildScreen = () => {
-  const [childName, setChildName] = useState('');
+const RegisterChildScreen = ({ navigation }) => {
+  const [childFirstName, setChildFirstName] = useState('');
+  const [childLastName, setChildLastName] = useState('');
   const [childDateOfBirth, setChildDateOfBirth] = useState('');
   const [childEmail, setChildEmail] = useState('');
   const [childPhone, setChildPhone] = useState('');
   const [schoolName, setSchoolName] = useState('');
   const [category, setCategory] = useState('');
 
-  const handleRegisterChild = () => {
+  const handleRegisterChild = async () => {
     const today = new Date();
     const birthDate = new Date(childDateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -19,17 +21,31 @@ const RegisterChildScreen = () => {
       age--;
     }
 
-    if (age < 15) {
-      // Logique de validation parentale
-      console.log("Validation parentale nécessaire");
-      // Naviguer vers l'écran de validation parentale
-    } else {
-      // Naviguer vers l'écran d'upload de photo
-      console.log("Pas besoin de validation parentale. Aller à l'écran d'upload de photo");
-    }
+    try {
+      const docRef = await firestore().collection('children').add({
+        firstName: childFirstName,
+        lastName: childLastName,
+        dateOfBirth: childDateOfBirth,
+        email: childEmail,
+        phone: childPhone,
+        schoolName: schoolName,
+        category: category,
+        // Vous pouvez ajouter d'autres champs nécessaires ici
+      });
 
-    // Enregistrer les informations de l'enfant
-    console.log('Informations de l\'enfant :', childName, childDateOfBirth, childEmail, childPhone, schoolName, category);
+      if (age < 15) {
+        console.log("Validation parentale nécessaire");
+        // Passer l'ID du document (enfant) à ParentScreen pour la validation parentale
+        navigation.navigate('ParentScreen', { childId: docRef.id });
+      } else {
+        console.log("Pas besoin de validation parentale. Aller à l'écran d'upload de photo");
+        // Naviguer vers un écran approprié pour les enfants de 15 ans et plus
+      navigation.navigate('AddPictureScreen');
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement de l'enfant:", error);
+      Alert.alert("Erreur", "Une erreur est survenue lors de l'enregistrement. Veuillez réessayer.");
+    }
   };
 
   return (
