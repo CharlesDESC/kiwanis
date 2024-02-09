@@ -53,8 +53,14 @@ const RegisterChildScreen = ({ navigation }) => {
       <TextInput
         style={styles.input}
         label="Nom de l'enfant"
-        value={childName}
-        onChangeText={setChildName}
+        value={childLastName}
+        onChangeText={setChildLastName}
+      />
+       <TextInput
+        style={styles.input}
+        label="Prénom de l'enfant"
+        value={childFirstName}
+        onChangeText={setChildFirstName}
       />
       <TextInput
         style={styles.input}
