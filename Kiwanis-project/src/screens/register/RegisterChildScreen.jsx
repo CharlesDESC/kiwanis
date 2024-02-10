@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { View, StyleSheet, Alert, Image, TouchableWithoutFeedback, Text } from "react-native";
+import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 // import firestore from "@react-native-firebase/firestore";
 
@@ -12,6 +12,9 @@ export const RegisterChildScreen = ({ navigation }) => {
 	const [childPhone, setChildPhone] = useState("");
 	const [schoolName, setSchoolName] = useState("");
 	const [category, setCategory] = useState("");
+    const [visible, setVisible] = useState(false);
+    const showDialog = () => setVisible(true);
+    const hideDialog = () => setVisible(false);
 
 	const handleRegisterChild = async () => {
 		const today = new Date();
@@ -71,6 +74,11 @@ export const RegisterChildScreen = ({ navigation }) => {
       
 	return (
 		<View style={styles.container}>
+             <Image
+        source={require('../../assets/logo.jpg')}
+        style={styles.logo}
+        resizeMode="contain" 
+      />
 			<TextInput
 				style={styles.input}
 				label="Nom de l'enfant"
@@ -112,17 +120,34 @@ export const RegisterChildScreen = ({ navigation }) => {
 				value={schoolName}
 				onChangeText={setSchoolName}
 			/>
-			<Picker
-				selectedValue={category}
-				onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-				style={styles.picker}
-				mode='dropdown'
-			>
-				<Picker.Item label='Choisir une catégorie' value='' />
-				<Picker.Item label='École' value='École' />
-				<Picker.Item label='Collège' value='Collège' />
-				<Picker.Item label='Lycée' value='Lycée' />
-			</Picker>
+	  <Button 
+        mode="outlined" 
+        onPress={showDialog} 
+        contentStyle={styles.fakeInputContent} 
+        labelStyle={styles.fakeInputLabel} 
+        style={styles.fakeInput}
+        icon="menu-down"
+      >
+        {category || 'Choisir une catégorie'}
+      </Button>
+
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Choisir une catégorie</Dialog.Title>
+          <Dialog.Content>
+            {['École', 'Collège', 'Lycée'].map((cat) => (
+              <List.Item
+                key={cat}
+                title={cat}
+                onPress={() => {
+                  setCategory(cat);
+                  hideDialog();
+                }}
+              />
+            ))}
+          </Dialog.Content>
+        </Dialog>
+      </Portal>
 			<Button mode='contained' onPress={handleRegisterChild}>
 				Valider
 			</Button>
@@ -141,7 +166,19 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 10,
 	},
-    picker: {
-        width: '100%'
+      logo: {
+        width: 150,
+        height: 150, 
+      },
+      fakeInput: {
+        width: '100%',
+        marginBottom: 10,
+        borderColor: 'grey', // Pour simuler le bord d'un TextInput
+      },
+      fakeInputContent: {
+        height: 58, // Hauteur standard d'un TextInput
+      },
+      fakeInputLabel: {
+        lineHeight: 58, // Aligner le texte verticalement
       },
 });
