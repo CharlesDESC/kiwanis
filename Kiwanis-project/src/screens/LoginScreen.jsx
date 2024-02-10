@@ -8,9 +8,17 @@ export const LoginScreen = () => {
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
 
-	const handleLogin = () => {
-		// Logique de connexion ici
-	};
+	const handleLogin = async () => {
+		try {
+		  await auth().signInWithEmailAndPassword(email, password);
+		  console.log('Utilisateur connecté !');
+		  // Naviguez vers un autre écran ici si nécessaire
+		  navigation.navigate('Home'); // Assurez-vous d'avoir un écran 'Home' dans votre navigation
+		} catch (error) {
+		  console.error(error);
+		  Alert.alert('Erreur de connexion', error.message);
+		}
+	  };
 
 	const goToRegister = () => {
 		navigation.navigate("Register");

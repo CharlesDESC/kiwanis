@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import { Styles } from '../assets/styles/HeaderStyle';
 
 export const Header = () => {
@@ -9,7 +9,8 @@ export const Header = () => {
                 source={require('../assets/logo2.png')}
                 style={Styles.image}
             />
-            <Text style={Styles.text}>Kiwanis Antibes Juan les pins concours photo</Text>
+            <Text style={Styles.text}>Kiwanis Antibes Juan les pins</Text>
+            <Text style={Styles.text}>Concours photo</Text>
         </View>
     );
 };
