@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, Button } from "react-native";
+import { Styles } from "../../assets/styles/ValidParentScreenStyle";
 // import firestore from '@react-native-firebase/firestore';
 
 export const ValidParentScreen = ({ route }) => {
@@ -23,13 +24,13 @@ export const ValidParentScreen = ({ route }) => {
 	};
 
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Demande d'Inscription</Text>
-			<Text style={styles.text}>
+		<View style={Styles.container}>
+			<Text style={Styles.title}>Demande d'Inscription</Text>
+			<Text style={Styles.text}>
 				Votre enfant souhaite participer au concours photo et a besoin de votre
 				approbation.
 			</Text>
-			<View style={styles.buttons}>
+			<View style={Styles.buttons}>
 				<Button title='Approuver' onPress={() => handleApproval(true)} />
 				<Button title='Rejeter' onPress={() => handleApproval(false)} />
 			</View>
@@ -37,26 +38,4 @@ export const ValidParentScreen = ({ route }) => {
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 20,
-	},
-	title: {
-		fontSize: 22,
-		fontWeight: "bold",
-		marginBottom: 20,
-	},
-	text: {
-		fontSize: 16,
-		textAlign: "center",
-		marginBottom: 20,
-	},
-	buttons: {
-		flexDirection: "row",
-		justifyContent: "space-around",
-		width: "100%",
-	},
-});
+

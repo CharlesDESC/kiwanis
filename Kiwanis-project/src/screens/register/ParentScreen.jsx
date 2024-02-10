@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+import { Styles } from "../../assets/styles/ParentScreenStyle";
 // import firestore from '@react-native-firebase/firestore';
 
 export const ParentScreen = ({ route, navigation }) => {
@@ -30,18 +31,18 @@ export const ParentScreen = ({ route, navigation }) => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={Styles.container}>
 			<TextInput
 				label='Nom du parent'
 				value={parentName}
 				onChangeText={setParentName}
-				style={styles.input}
+				style={Styles.input}
 			/>
 			<TextInput
 				label='Email du parent'
 				value={parentEmail}
 				onChangeText={setParentEmail}
-				style={styles.input}
+				style={Styles.input}
 				keyboardType='email-address'
 			/>
 			<Button mode='contained' onPress={handleSubmit}>
@@ -51,13 +52,4 @@ export const ParentScreen = ({ route, navigation }) => {
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		padding: 20,
-	},
-	input: {
-		marginBottom: 20,
-	},
-});
+

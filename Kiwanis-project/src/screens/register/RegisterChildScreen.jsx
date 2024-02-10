@@ -35,7 +35,6 @@ export const RegisterChildScreen = ({ navigation }) => {
 				phone: childPhone,
 				schoolName: schoolName,
 				category: category,
-				// Vous pouvez ajouter d'autres champs nécessaires ici
 			});
 
 			if (age < 15) {
