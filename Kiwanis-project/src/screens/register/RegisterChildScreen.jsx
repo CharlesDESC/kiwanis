@@ -53,7 +53,22 @@ export const RegisterChildScreen = ({ navigation }) => {
 			);
 		}
 	};
-
+    const formatDateInputFR = (value) => {
+        // Supprime tout ce qui n'est pas un chiffre
+        const numbers = value.replace(/[^0-9]/g, '');
+      
+        // Construit le format JJ-MM-AAAA avec des tirets
+        let day = numbers.slice(0, 2);
+        let month = numbers.slice(2, 4);
+        let year = numbers.slice(4, 8);
+      
+        // Ajoute des tirets entre JJ, MM et AAAA
+        const formatted = `${day}${month ? '-' : ''}${month}${year ? '-' : ''}${year}`;
+      
+        return formatted;
+      };
+      
+      
 	return (
 		<View style={styles.container}>
 			<TextInput
@@ -69,12 +84,14 @@ export const RegisterChildScreen = ({ navigation }) => {
 				onChangeText={setChildFirstName}
 			/>
 			<TextInput
-				style={styles.input}
-				label='Date de naissance (YYYY-MM-DD)'
-				value={childDateOfBirth}
-				onChangeText={setChildDateOfBirth}
-				keyboardType='numeric'
-			/>
+            style={styles.input}
+            label="Date de naissance (JJ-MM-AAAA)"
+            value={childDateOfBirth}
+            onChangeText={(text) => setChildDateOfBirth(formatDateInputFR(text))}
+            keyboardType="numeric"
+            />
+
+
 			<TextInput
 				style={styles.input}
 				label='Email'
