@@ -141,4 +141,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 10,
 	},
+    picker: {
+        width: '100%'
+      },
 });
