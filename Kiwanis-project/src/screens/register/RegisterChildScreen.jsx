@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert, Image, TouchableWithoutFeedback, Text } from "react-native";
+import { View, StyleSheet, Alert, Image } from "react-native";
 import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
-import { Picker } from "@react-native-picker/picker";
 // import firestore from "@react-native-firebase/firestore";
 
 export const RegisterChildScreen = ({ navigation }) => {
