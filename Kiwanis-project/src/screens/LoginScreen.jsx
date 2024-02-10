@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { View, TextInput, Button, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginScreen = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const navigation = useNavigation();
 
 	const handleLogin = () => {
 		// Logique de connexion ici
+	};
+
+	const goToRegister = () => {
+		navigation.navigate("Register");
 	};
 
 	return (
@@ -25,6 +31,7 @@ export const LoginScreen = () => {
 				onChangeText={setPassword}
 			/>
 			<Button title='Se connecter' onPress={handleLogin} />
+			<Button title="S'inscrire" onPress={goToRegister} />
 		</View>
 	);
 };

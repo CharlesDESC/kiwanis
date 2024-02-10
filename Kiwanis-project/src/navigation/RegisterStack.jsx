@@ -8,13 +8,11 @@ const Stack = createNativeStackNavigator();
 
 export const RegisterStack = () => {
 	return (
-		<NavigationContainer>
-			<Stack.Navigator>
-				<Stack.Screen name='RegisterChild' component={RegisterChildScreen} />
-				<Stack.Screen name='ValidChild' component={ValidChildScreen} />
-				<Stack.Screen name='Parent' component={ParentScreen} />
-				<Stack.Screen name='ValidParent' component={ValidParentScreen} />
-			</Stack.Navigator>
-		</NavigationContainer>
+		<Stack.Navigator>
+			<Stack.Screen name='RegisterChild' component={RegisterChildScreen} />
+			{/* <Stack.Screen name='ValidChild' component={ValidChildScreen} /> */}
+			<Stack.Screen name='Parent' component={ParentScreen} />
+			<Stack.Screen name='ValidParent' component={ValidParentScreen} />
+		</Stack.Navigator>
 	);
 };
