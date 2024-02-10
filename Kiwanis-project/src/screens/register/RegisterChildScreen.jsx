@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Stylesheet, Alert, Image, Text } from "react-native";
+import { View, Alert} from "react-native";
 import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
 import { Styles } from "../../assets/styles/RegisterChildScreenStyle";
 import { Header } from "../../components/Header";

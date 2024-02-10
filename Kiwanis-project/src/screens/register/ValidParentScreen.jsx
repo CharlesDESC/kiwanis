@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Button } from "react-native";
 import { Styles } from "../../assets/styles/ValidParentScreenStyle";
 // import firestore from '@react-native-firebase/firestore';
