@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert, Image, Text } from "react-native";
+import { View, Stylesheet, Alert, Image, Text } from "react-native";
 import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
+import { Styles } from "../../assets/styles/RegisterChildScreenStyle";
+import { Header } from "../../components/Header";
 // import firestore from "@react-native-firebase/firestore";
 
 export const RegisterChildScreen = ({ navigation }) => {
@@ -72,30 +74,22 @@ export const RegisterChildScreen = ({ navigation }) => {
       
       
 	return (
-		<View style={styles.container}>
-             <Image
-                source={require('../../assets/logo2.png')}
-                 style={styles.logo}
-                 resizeMode="contain" 
-            />
-              <Text style={styles.paragraph}>
-        Kiwanis Antibes Juan les pins
-        {"\n"}Concours photo
-      </Text>
+		<View style={Styles.container}>
+          <Header/>
 			<TextInput
-				style={styles.input}
+				style={Styles.input}
 				label="Nom de l'enfant"
 				value={childLastName}
 				onChangeText={setChildLastName}
 			/>
 			<TextInput
-				style={styles.input}
+				style={Styles.input}
 				label="Prénom de l'enfant"
 				value={childFirstName}
 				onChangeText={setChildFirstName}
 			/>
 			<TextInput
-            style={styles.input}
+            style={Styles.input}
             label="Date de naissance (JJ-MM-AAAA)"
             value={childDateOfBirth}
             onChangeText={(text) => setChildDateOfBirth(formatDateInputFR(text))}
@@ -104,21 +98,21 @@ export const RegisterChildScreen = ({ navigation }) => {
 
 
 			<TextInput
-				style={styles.input}
+				style={Styles.input}
 				label='Email'
 				value={childEmail}
 				onChangeText={setChildEmail}
 				keyboardType='email-address'
 			/>
 			<TextInput
-				style={styles.input}
+				style={Styles.input}
 				label='Téléphone'
 				value={childPhone}
 				onChangeText={setChildPhone}
 				keyboardType='phone-pad'
 			/>
 			<TextInput
-				style={styles.input}
+				style={Styles.input}
 				label="Nom de l'école"
 				value={schoolName}
 				onChangeText={setSchoolName}
@@ -126,9 +120,9 @@ export const RegisterChildScreen = ({ navigation }) => {
 	  <Button 
         mode="outlined" 
         onPress={showDialog} 
-        contentStyle={styles.fakeInputContent} 
-        labelStyle={styles.fakeInputLabel} 
-        style={styles.fakeInput}
+        contentStyle={Styles.fakeInputContent} 
+        labelStyle={Styles.fakeInputLabel} 
+        style={Styles.fakeInput}
         icon="menu-down"
       >
         {category || 'Choisir une catégorie'}
@@ -158,35 +152,3 @@ export const RegisterChildScreen = ({ navigation }) => {
 	);
 };
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		padding: 20,
-	},
-	input: {
-		width: "100%",
-		marginBottom: 10,
-	},
-      logo: {
-        width: 150,
-        height: 150, 
-      },
-      fakeInput: {
-        width: '100%',
-        marginBottom: 10,
-        borderColor: 'grey', // Pour simuler le bord d'un TextInput
-      },
-      fakeInputContent: {
-        height: 58, // Hauteur standard d'un TextInput
-      },
-      fakeInputLabel: {
-        lineHeight: 58, // Aligner le texte verticalement
-      },
-      paragraph: {
-        textAlign: 'center', // Centre le texte
-        marginBottom: 20, // Espacement avant le reste du formulaire
-        fontSize: 16, // Taille de la police
-      },
-});
