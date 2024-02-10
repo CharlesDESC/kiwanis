@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Alert, Image } from "react-native";
+import { View, StyleSheet, Alert, Image, Text } from "react-native";
 import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
 // import firestore from "@react-native-firebase/firestore";
 
@@ -74,10 +74,14 @@ export const RegisterChildScreen = ({ navigation }) => {
 	return (
 		<View style={styles.container}>
              <Image
-        source={require('../../assets/logo.jpg')}
-        style={styles.logo}
-        resizeMode="contain" 
-      />
+                source={require('../../assets/logo2.png')}
+                 style={styles.logo}
+                 resizeMode="contain" 
+            />
+              <Text style={styles.paragraph}>
+        Kiwanis Antibes Juan les pins
+        {"\n"}Concours photo
+      </Text>
 			<TextInput
 				style={styles.input}
 				label="Nom de l'enfant"
@@ -179,5 +183,10 @@ const styles = StyleSheet.create({
       },
       fakeInputLabel: {
         lineHeight: 58, // Aligner le texte verticalement
+      },
+      paragraph: {
+        textAlign: 'center', // Centre le texte
+        marginBottom: 20, // Espacement avant le reste du formulaire
+        fontSize: 16, // Taille de la police
       },
 });
