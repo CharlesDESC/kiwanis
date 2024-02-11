@@ -8,7 +8,8 @@ const Stack = createNativeStackNavigator();
 
 export const RegisterStack = () => {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={{
+			headerShown: false}}>
 			<Stack.Screen name='RegisterChild' component={RegisterChildScreen} />
 			{/* <Stack.Screen name='ValidChild' component={ValidChildScreen} /> */}
 			<Stack.Screen name='Parent' component={ParentScreen} />
