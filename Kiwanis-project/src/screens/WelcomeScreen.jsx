@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { Header } from "../components/Header";
 
 export const WelcomeScreen = () => {
 	const navigation = useNavigation();
@@ -17,6 +18,7 @@ export const WelcomeScreen = () => {
 
 	return (
 		<View style={{ flex: 1, justifyContent: "center", rowGap: 10 }}>
+			<Header/>
 			<Text>Welcome to the Home Screen!</Text>
 			<Button mode='contained' onPress={moveToAuth}>
 				<Text>moveToAuth</Text>
