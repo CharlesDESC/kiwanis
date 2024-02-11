@@ -1,22 +1,24 @@
 {
-    "hosting": {
-      "public": "public",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    "projects": {
-      "dev": "kiwanis-dev",
-      "test": "kiwanis-test-dd86f",
-      "prod": "kiwanis-photos"
-    }
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "projects": {
+    "dev": "kiwanis-dev",
+    "test": "kiwanis-test-dd86f",
+    "prod": "kiwanis-photos"
+  },
+  "storage": {
+    "rules": "y"
   }
-  
+}
