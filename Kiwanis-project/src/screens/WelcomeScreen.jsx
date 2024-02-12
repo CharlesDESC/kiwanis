@@ -25,7 +25,6 @@ export const WelcomeScreen = () => {
 				flex: 1,
 				justifyContent: "center",
 				rowGap: 10,
-				backgroundColor: "red",
 			}}
 		>
 			<Text>Welcome to the Home Screen!</Text>
