@@ -2,22 +2,38 @@ import React, { useEffect } from "react";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { useChild } from "../../contexts/ChildContext";
-import { auth } from "../../../firebaseConfig";
+import { auth, db } from "../../../firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 import {
+	createUserWithEmailAndPassword,
 	fetchSignInMethodsForEmail,
-	signInWithEmailAndPassword,
 } from "firebase/auth";
 
 export const ValidChildScreen = () => {
 	const Auth = auth;
 	const { email } = useChild();
 
+	const test = async () => {
+		try {
+			const docRef = addDoc(collection(db, "users"), {
+				email: "a@a.com",
+			});
+			console.log("Document written with ID: ", docRef.id);
+		} catch (e) {
+			console.error("Error adding document: ", e);
+		}
+	};
+
 	useEffect(() => {
 		const checkEmailExists = async () => {
 			try {
+				console.log(email);
 				const result = await fetchSignInMethodsForEmail(Auth, email);
-				console.log("result", result);
-				// Gérer le résultat ici
+				if (result && result.length > 0) {
+					console.log("Email déjà utilisé");
+				} else {
+					console.log("Email non utilisé");
+				}
 			} catch (error) {
 				console.error("Erreur lors de la vérification de l'email :", error);
 			}
@@ -26,23 +42,18 @@ export const ValidChildScreen = () => {
 		checkEmailExists();
 	}, [email]);
 
-	console.log(email);
-
-	const testLogin = async () => {
-		const username = "a@a.com";
+	const testSignUp = async () => {
 		const password = "test123";
 		try {
-			const response = await signInWithEmailAndPassword(
+			const response = await createUserWithEmailAndPassword(
 				Auth,
-				username,
+				email,
 				password
 			);
 			console.log(response);
-			setIsLogged("true");
+			// Utilisez la réponse pour accéder aux détails de l'utilisateur si nécessaire
 		} catch (error) {
-			console.log(error);
-		} finally {
-			setIsLoading(false);
+			console.error("Erreur lors de la création du compte :", error);
 		}
 	};
 
@@ -53,7 +64,7 @@ export const ValidChildScreen = () => {
 				title='Validate'
 				onPress={() => console.log("Validation button pressed")}
 			/>
-			<Button onPress={testLogin}>bujiezfbhi</Button>
+			<Button onPress={test}>Sign Up</Button>
 		</View>
 	);
 };
