@@ -12,7 +12,6 @@ import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import { useChild } from "../../contexts/ChildContext";
-// import firestore from "@react-native-firebase/firestore";
 
 export const RegisterChildScreen = ({ navigation }) => {
 	const [childFirstName, setChildFirstName] = useState("");
@@ -73,16 +72,19 @@ export const RegisterChildScreen = ({ navigation }) => {
 
 	const handleRegisterChild = () => {
 		console.log("pouet");
-		console.log(category);
-		console.log(date);
-		setLastName(childDateOfBirth);
+		setLastName(childLastName);
 		setFirstName(childFirstName);
-		setDateOfBirth(setDateOfBirth);
+		setDateOfBirth(childDateOfBirth);
 		setEmail(childEmail);
 		setPhone(childPhone);
 		setSchool(schoolName);
 		setCat(category);
-		navigation.navigate("ValidChild");
+
+		if (2024 - date.getFullYear() < 15) {
+			navigation.navigate("ValidChild");
+		}
+
+		// navigation.navigate("ValidChild");
 	};
 
 	return (
