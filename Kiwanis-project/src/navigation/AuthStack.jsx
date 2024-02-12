@@ -9,9 +9,12 @@ const Stack = createNativeStackNavigator();
 
 export const AuthStack = () => {
 	return (
-		<Stack.Navigator       screenOptions={{
-			header: () => <Header />,
-		  }}>
+		<Stack.Navigator
+			screenOptions={{
+				headerShown: true,
+				header: () => <Header />,
+			}}
+		>
 			<Stack.Screen name='Login' component={LoginScreen} />
 			<Stack.Screen name='Register' component={RegisterStack} />
 			<Stack.Screen name='Main' component={MainStack} />

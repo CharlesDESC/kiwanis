@@ -5,9 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 export const WelcomeScreen = () => {
 	const navigation = useNavigation();
 
-	const moveToAuth = () => {
-		navigation.navigate("AuthStack");
+	const moveToRegister = () => {
+		navigation.navigate("AuthStack", { screen: "Register" });
 		console.log("Button pressed");
+	};
+
+	const moveToLogin = () => {
+		navigation.navigate("AuthStack", { screen: "Login" });
 	};
 
 	const invite = () => {
@@ -16,10 +20,21 @@ export const WelcomeScreen = () => {
 	};
 
 	return (
-		<View style={{ flex: 1, justifyContent: "center", rowGap: 10 }}>
+		<View
+			style={{
+				flex: 1,
+				justifyContent: "center",
+				rowGap: 10,
+				backgroundColor: "red",
+			}}
+		>
 			<Text>Welcome to the Home Screen!</Text>
-			<Button mode='contained' onPress={moveToAuth}>
-				<Text>moveToAuth</Text>
+			<Button mode='contained' onPress={moveToRegister}>
+				<Text>s'incrire</Text>
+			</Button>
+
+			<Button mode='contained' onPress={moveToLogin}>
+				<Text>se connecter</Text>
 			</Button>
 			<Button mode='contained' onPress={invite}>
 				<Text>invité mode</Text>

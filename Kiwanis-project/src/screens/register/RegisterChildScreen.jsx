@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert, Image, Text } from "react-native";
-import { TextInput, Button, Dialog, Portal, List  } from "react-native-paper";
+import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 // import firestore from "@react-native-firebase/firestore";
 
 export const RegisterChildScreen = ({ navigation }) => {
@@ -11,9 +11,9 @@ export const RegisterChildScreen = ({ navigation }) => {
 	const [childPhone, setChildPhone] = useState("");
 	const [schoolName, setSchoolName] = useState("");
 	const [category, setCategory] = useState("");
-    const [visible, setVisible] = useState(false);
-    const showDialog = () => setVisible(true);
-    const hideDialog = () => setVisible(false);
+	const [visible, setVisible] = useState(false);
+	const showDialog = () => setVisible(true);
+	const hideDialog = () => setVisible(false);
 
 	const handleRegisterChild = async () => {
 		const today = new Date();
@@ -55,33 +55,25 @@ export const RegisterChildScreen = ({ navigation }) => {
 			);
 		}
 	};
-    const formatDateInputFR = (value) => {
-        // Supprime tout ce qui n'est pas un chiffre
-        const numbers = value.replace(/[^0-9]/g, '');
-      
-        // Construit le format JJ-MM-AAAA avec des tirets
-        let day = numbers.slice(0, 2);
-        let month = numbers.slice(2, 4);
-        let year = numbers.slice(4, 8);
-      
-        // Ajoute des tirets entre JJ, MM et AAAA
-        const formatted = `${day}${month ? '-' : ''}${month}${year ? '-' : ''}${year}`;
-      
-        return formatted;
-      };
-      
-      
+	const formatDateInputFR = (value) => {
+		// Supprime tout ce qui n'est pas un chiffre
+		const numbers = value.replace(/[^0-9]/g, "");
+
+		// Construit le format JJ-MM-AAAA avec des tirets
+		let day = numbers.slice(0, 2);
+		let month = numbers.slice(2, 4);
+		let year = numbers.slice(4, 8);
+
+		// Ajoute des tirets entre JJ, MM et AAAA
+		const formatted = `${day}${month ? "-" : ""}${month}${
+			year ? "-" : ""
+		}${year}`;
+
+		return formatted;
+	};
+
 	return (
 		<View style={styles.container}>
-             <Image
-                source={require('../../assets/logo2.png')}
-                 style={styles.logo}
-                 resizeMode="contain" 
-            />
-              <Text style={styles.paragraph}>
-        Kiwanis Antibes Juan les pins
-        {"\n"}Concours photo
-      </Text>
 			<TextInput
 				style={styles.input}
 				label="Nom de l'enfant"
@@ -95,13 +87,12 @@ export const RegisterChildScreen = ({ navigation }) => {
 				onChangeText={setChildFirstName}
 			/>
 			<TextInput
-            style={styles.input}
-            label="Date de naissance (JJ-MM-AAAA)"
-            value={childDateOfBirth}
-            onChangeText={(text) => setChildDateOfBirth(formatDateInputFR(text))}
-            keyboardType="numeric"
-            />
-
+				style={styles.input}
+				label='Date de naissance (JJ-MM-AAAA)'
+				value={childDateOfBirth}
+				onChangeText={(text) => setChildDateOfBirth(formatDateInputFR(text))}
+				keyboardType='numeric'
+			/>
 
 			<TextInput
 				style={styles.input}
@@ -123,34 +114,34 @@ export const RegisterChildScreen = ({ navigation }) => {
 				value={schoolName}
 				onChangeText={setSchoolName}
 			/>
-	  <Button 
-        mode="outlined" 
-        onPress={showDialog} 
-        contentStyle={styles.fakeInputContent} 
-        labelStyle={styles.fakeInputLabel} 
-        style={styles.fakeInput}
-        icon="menu-down"
-      >
-        {category || 'Choisir une catégorie'}
-      </Button>
+			<Button
+				mode='outlined'
+				onPress={showDialog}
+				contentStyle={styles.fakeInputContent}
+				labelStyle={styles.fakeInputLabel}
+				style={styles.fakeInput}
+				icon='menu-down'
+			>
+				{category || "Choisir une catégorie"}
+			</Button>
 
-      <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Choisir une catégorie</Dialog.Title>
-          <Dialog.Content>
-            {['École', 'Collège', 'Lycée'].map((cat) => (
-              <List.Item
-                key={cat}
-                title={cat}
-                onPress={() => {
-                  setCategory(cat);
-                  hideDialog();
-                }}
-              />
-            ))}
-          </Dialog.Content>
-        </Dialog>
-      </Portal>
+			<Portal>
+				<Dialog visible={visible} onDismiss={hideDialog}>
+					<Dialog.Title>Choisir une catégorie</Dialog.Title>
+					<Dialog.Content>
+						{["École", "Collège", "Lycée"].map((cat) => (
+							<List.Item
+								key={cat}
+								title={cat}
+								onPress={() => {
+									setCategory(cat);
+									hideDialog();
+								}}
+							/>
+						))}
+					</Dialog.Content>
+				</Dialog>
+			</Portal>
 			<Button mode='contained' onPress={handleRegisterChild}>
 				Valider
 			</Button>
@@ -169,24 +160,24 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 10,
 	},
-      logo: {
-        width: 150,
-        height: 150, 
-      },
-      fakeInput: {
-        width: '100%',
-        marginBottom: 10,
-        borderColor: 'grey', // Pour simuler le bord d'un TextInput
-      },
-      fakeInputContent: {
-        height: 58, // Hauteur standard d'un TextInput
-      },
-      fakeInputLabel: {
-        lineHeight: 58, // Aligner le texte verticalement
-      },
-      paragraph: {
-        textAlign: 'center', // Centre le texte
-        marginBottom: 20, // Espacement avant le reste du formulaire
-        fontSize: 16, // Taille de la police
-      },
+	logo: {
+		width: 150,
+		height: 150,
+	},
+	fakeInput: {
+		width: "100%",
+		marginBottom: 10,
+		borderColor: "grey", // Pour simuler le bord d'un TextInput
+	},
+	fakeInputContent: {
+		height: 58, // Hauteur standard d'un TextInput
+	},
+	fakeInputLabel: {
+		lineHeight: 58, // Aligner le texte verticalement
+	},
+	paragraph: {
+		textAlign: "center", // Centre le texte
+		marginBottom: 20, // Espacement avant le reste du formulaire
+		fontSize: 16, // Taille de la police
+	},
 });
