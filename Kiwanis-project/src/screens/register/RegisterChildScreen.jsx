@@ -12,6 +12,7 @@ import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useChild } from "../../contexts/ChildContext";
 
+
 export const RegisterChildScreen = ({ navigation }) => {
 	const [childFirstName, setChildFirstName] = useState("");
 	const [childLastName, setChildLastName] = useState("");
@@ -77,13 +78,23 @@ export const RegisterChildScreen = ({ navigation }) => {
         setChildPassword(childPassword)
 		setPhone(childPhone);
 		setCat(category);
+        console.log("Date de naissance de l'enfant :", childDateOfBirth);
+        console.log("Année actuelle :", new Date().getFullYear());
+        console.log("Différence d'années :", 2024 - date.getFullYear());
+        if (!childPassword) {
+            console.error("Le mot de passe de l'enfant n'est pas défini.");
+            return;
+        }
 		if (2024 - date.getFullYear() > 15) {
+            console.log("L'enfant a plus de 15 ans");
 			navigation.navigate("ValidChild");
-		}
+		} else{
+            console.log("L'enfant a moins de 15 ans");
+        }
 
 		// navigation.navigate("ValidChild");
 	};
-
+  
 	return (
 		<KeyboardAvoidingView
 			style={styles.container}
