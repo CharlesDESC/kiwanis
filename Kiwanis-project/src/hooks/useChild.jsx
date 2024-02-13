@@ -5,8 +5,8 @@ export const useChild = () => {
 	const [firstName, setFirstName] = useState("");
 	const [dateOfBirth, setDateOfBirth] = useState("");
 	const [email, setEmail] = useState("");
+	const [password, setPassword]=useState("");
 	const [phone, setPhone] = useState("");
-	const [school, setSchool] = useState("");
 	const [cat, setCat] = useState("");
 
 	return {
@@ -18,10 +18,10 @@ export const useChild = () => {
 		setDateOfBirth,
 		email,
 		setEmail,
+		password,
+		setPassword,
 		phone,
 		setPhone,
-		school,
-		setSchool,
 		cat,
 		setCat,
 	};

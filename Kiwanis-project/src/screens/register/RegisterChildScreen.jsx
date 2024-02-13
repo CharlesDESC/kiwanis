@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
 import { useChild } from "../../contexts/ChildContext";
 
 export const RegisterChildScreen = ({ navigation }) => {
@@ -18,11 +17,10 @@ export const RegisterChildScreen = ({ navigation }) => {
 	const [childLastName, setChildLastName] = useState("");
 	const [childDateOfBirth, setChildDateOfBirth] = useState("");
 	const [childEmail, setChildEmail] = useState("");
+    const [childPassword, setChildPassword]=useState("");
 	const [childPhone, setChildPhone] = useState("");
-	const [schoolName, setSchoolName] = useState("");
 	const [category, setCategory] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
-
 	const [date, setDate] = useState(new Date());
 	const [mode, setMode] = useState("date");
 	const [show, setShow] = useState(false);
@@ -38,8 +36,8 @@ export const RegisterChildScreen = ({ navigation }) => {
 		setFirstName,
 		setDateOfBirth,
 		setEmail,
+        setPassword,
 		setPhone,
-		setSchool,
 		setCat,
 	} = useChild();
 
@@ -76,11 +74,10 @@ export const RegisterChildScreen = ({ navigation }) => {
 		setFirstName(childFirstName);
 		setDateOfBirth(childDateOfBirth);
 		setEmail(childEmail);
+        setChildPassword(childPassword)
 		setPhone(childPhone);
-		setSchool(schoolName);
 		setCat(category);
-
-		if (2024 - date.getFullYear() < 15) {
+		if (2024 - date.getFullYear() > 15) {
 			navigation.navigate("ValidChild");
 		}
 
@@ -130,18 +127,19 @@ export const RegisterChildScreen = ({ navigation }) => {
 					onChangeText={setChildEmail}
 					keyboardType='email-address'
 				/>
+                <TextInput
+                    style={styles.input}
+                    label='Mot de passe'
+                    value={childPassword}
+                    onChangeText={setChildPassword}
+                    secureTextEntry={true} // Pour masquer le texte du mot de passe
+                />
 				<TextInput
 					style={styles.input}
 					label='Téléphone'
 					value={childPhone}
 					onChangeText={setChildPhone}
 					keyboardType='phone-pad'
-				/>
-				<TextInput
-					style={styles.input}
-					label="Nom de l'école"
-					value={schoolName}
-					onChangeText={setSchoolName}
 				/>
 				<Button
 					mode='outlined'

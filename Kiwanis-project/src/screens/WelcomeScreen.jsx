@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { Header } from "../components/Header";
 
 export const WelcomeScreen = () => {
 	const navigation = useNavigation();

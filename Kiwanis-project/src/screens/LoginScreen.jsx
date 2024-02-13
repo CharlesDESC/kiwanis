@@ -1,39 +1,30 @@
 import React, { useState } from "react";
-import { View, TextInput, Button } from "react-native";
+import { View, TextInput, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Styles } from "../assets/styles/LoginScreenStyles";
 
 export const LoginScreen = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
 
-	const handleLogin = async () => {
-		try {
-		  await auth().signInWithEmailAndPassword(email, password);
-		  console.log('Utilisateur connecté !');
-		  // Naviguez vers un autre écran ici si nécessaire
-		  navigation.navigate('Home'); // Assurez-vous d'avoir un écran 'Home' dans votre navigation
-		} catch (error) {
-		  console.error(error);
-		  Alert.alert('Erreur de connexion', error.message);
-		}
-	  };
+	const handleLogin = () => {
+		// Logique de connexion ici
+	};
 
 	const goToRegister = () => {
 		navigation.navigate("Register");
 	};
 
 	return (
-		<View style={Styles.container}>
+		<View style={styles.container}>
 			<TextInput
-				style={Styles.input}
+				style={styles.input}
 				placeholder='Email'
 				value={email}
 				onChangeText={setEmail}
 			/>
 			<TextInput
-				style={Styles.input}
+				style={styles.input}
 				placeholder='Mot de passe'
 				secureTextEntry
 				value={password}
@@ -45,4 +36,19 @@ export const LoginScreen = () => {
 	);
 };
 
-
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		padding: 16,
+	},
+	input: {
+		width: "100%",
+		height: 40,
+		borderColor: "gray",
+		borderWidth: 1,
+		marginBottom: 12,
+		paddingHorizontal: 8,
+	},
+});

@@ -1,6 +1,5 @@
-import React from "react";
-import { View, Text, Button } from "react-native";
-import { Styles } from "../../assets/styles/ValidParentScreenStyle";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
 // import firestore from '@react-native-firebase/firestore';
 
 export const ValidParentScreen = ({ route }) => {
@@ -24,13 +23,13 @@ export const ValidParentScreen = ({ route }) => {
 	};
 
 	return (
-		<View style={Styles.container}>
-			<Text style={Styles.title}>Demande d'Inscription</Text>
-			<Text style={Styles.text}>
+		<View style={styles.container}>
+			<Text style={styles.title}>Demande d'Inscription</Text>
+			<Text style={styles.text}>
 				Votre enfant souhaite participer au concours photo et a besoin de votre
 				approbation.
 			</Text>
-			<View style={Styles.buttons}>
+			<View style={styles.buttons}>
 				<Button title='Approuver' onPress={() => handleApproval(true)} />
 				<Button title='Rejeter' onPress={() => handleApproval(false)} />
 			</View>
