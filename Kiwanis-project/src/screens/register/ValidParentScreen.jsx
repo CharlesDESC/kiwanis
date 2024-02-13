@@ -38,4 +38,25 @@ export const ValidParentScreen = ({ route }) => {
 	);
 };
 
-
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	title: {
+		fontSize: 22,
+		fontWeight: "bold",
+		marginBottom: 20,
+	},
+	text: {
+		fontSize: 16,
+		textAlign: "center",
+		marginBottom: 20,
+	},
+	buttons: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		width: "100%",
+	},
+});
