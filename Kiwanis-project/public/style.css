@@ -6,14 +6,14 @@ body {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin:10px;
     padding: auto;
-    font-size: 30px;
+    font-size:20px;
     color: black;
   }
 
   .ouverture{
-    font-size: 50px;
+    font-size: 30px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin:10px;
+    margin:5px;
     padding: auto;
     color: black;
   }
@@ -42,14 +42,14 @@ body {
   }
   .bienvenue{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin:10px;
+    margin:5px;
     padding: auto;
-    font-size: 20px;
-    color: black;
+    font-size: 10px;
+    color: #000000;
   }
 
   .ouverture{
-    font-size: 30px;
+    font-size: 20px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin:10px;
     padding: auto;
