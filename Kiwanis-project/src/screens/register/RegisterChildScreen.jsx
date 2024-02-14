@@ -18,7 +18,7 @@ export const RegisterChildScreen = ({ navigation }) => {
 	const [childLastName, setChildLastName] = useState("");
 	const [childDateOfBirth, setChildDateOfBirth] = useState("");
 	const [childEmail, setChildEmail] = useState("");
-    const [childPassword, setChildPassword]=useState("");
+    const [password, setPassword] = useState("");
 	const [childPhone, setChildPhone] = useState("");
 	const [category, setCategory] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
@@ -31,13 +31,11 @@ export const RegisterChildScreen = ({ navigation }) => {
 	const hideDialog = () => setVisible(false);
 
 	const scrollViewRef = useRef();
-
 	const {
 		setLastName,
 		setFirstName,
 		setDateOfBirth,
 		setEmail,
-        setPassword,
 		setPhone,
 		setCat,
 	} = useChild();
@@ -75,13 +73,13 @@ export const RegisterChildScreen = ({ navigation }) => {
 		setFirstName(childFirstName);
 		setDateOfBirth(childDateOfBirth);
 		setEmail(childEmail);
-        setChildPassword(childPassword)
+        setPassword(password)
 		setPhone(childPhone);
 		setCat(category);
         console.log("Date de naissance de l'enfant :", childDateOfBirth);
         console.log("Année actuelle :", new Date().getFullYear());
         console.log("Différence d'années :", 2024 - date.getFullYear());
-        if (!childPassword) {
+        if (!password) {
             console.error("Le mot de passe de l'enfant n'est pas défini.");
             return;
         }
@@ -141,8 +139,8 @@ export const RegisterChildScreen = ({ navigation }) => {
                 <TextInput
                     style={styles.input}
                     label='Mot de passe'
-                    value={childPassword}
-                    onChangeText={setChildPassword}
+                    value={password}
+                    onChangeText={setPassword}
                     secureTextEntry={true} // Pour masquer le texte du mot de passe
                 />
 				<TextInput
