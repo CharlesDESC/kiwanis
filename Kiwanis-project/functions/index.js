@@ -1,19 +1,17 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+exports.activateAccount = functions.https.onRequest(async (req, res) => {
+    const { uid, code } = req.query; // Extrait les paramètres du lien d'activation
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+    // Vérifiez le code d'activation ici (par exemple, en cherchant le document correspondant dans Firestore)
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+    // Si valide, mettez à jour le statut d'activation dans Firestore
+    await admin.firestore().collection('users').doc(uid).update({
+        activated: true,
+        authorized: true,
+    });
+
+    res.send("Compte activé avec succès!"); // Réponse simple ou redirection vers une page de confirmation
+});

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, KeyboardAvoidingView, Platform, Alert } from "react-native";
+import { ScrollView, StyleSheet, View, KeyboardAvoidingView, Platform, Alert, Button as RNButton } from "react-native";
 import { Button, TextInput, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../../../firebaseConfig"; // Vérifiez que ces chemins sont corrects
+import { auth, db } from "../../../firebaseConfig"; 
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid'; // Nécessite `npm install uuid` ou `yarn add uuid`
 
 const categories = ["École", "Collège", "Lycée"];
 
@@ -16,38 +18,38 @@ export const RegisterChildScreen = ({ navigation }) => {
         password: "",
         phone: "",
         category: "",
+        parentEmail: "", // Email du parent pour l'autorisation
     });
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
 
-    const onConfirmDateOfBirth = (event, selectedDate) => {
-        setShowDatePicker(false);
-        if (selectedDate) {
-            setDateOfBirth(selectedDate);
-        }
-    };
-
     const handleRegister = async () => {
         const age = calculateAge(dateOfBirth);
-        if (age < 15) {
-            Alert.alert("Inscription refusée", "Vous devez avoir au moins 15 ans pour vous inscrire.");
-            return;
-        }
-
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            console.log("Utilisateur créé avec Firebase Auth :", userCredential.user.uid);
+            const activationCode = uuidv4(); // Générer un code d'activation unique
 
-            const { password, ...userDataWithoutPassword } = formData; // Exclure le mot de passe
-            await addDoc(collection(db, "users"), {
-                uid: userCredential.user.uid,
-                ...userDataWithoutPassword,
-                dateOfBirth: dateOfBirth.toISOString(),
-            });
-            console.log("Données utilisateur (sans mot de passe) enregistrées dans Firestore");
-
-            navigation.navigate("ValidChild", { userUid: userCredential.user.uid });
+            if (age < 15) {
+                await addDoc(collection(db, "mailActivations"), {
+                    to: formData.parentEmail,
+                    message: {
+                        subject: "Activation du compte nécessaire",
+                        html: `Bonjour, <br> Veuillez activer le compte de votre enfant en cliquant sur le lien suivant: <a href="https://example.com/activate?uid=${userCredential.user.uid}&code=${activationCode}">Activer le compte</a>.`,
+                    },
+                    activationCode,
+                    uid: userCredential.user.uid,
+                    authorized: false,
+                });
+                Alert.alert("Inscription en attente", "Un email de consentement a été envoyé à vos parents.");
+            } else {
+                await addDoc(collection(db, "users"), {
+                    ...formData,
+                    dateOfBirth: dateOfBirth.toISOString(),
+                    activated: true,
+                });
+                navigation.navigate("ValidChild", { userUid: userCredential.user.uid });
+            }
         } catch (error) {
             console.error("Erreur lors de l'inscription :", error);
             Alert.alert("Erreur d'inscription", error.message);
@@ -63,6 +65,14 @@ export const RegisterChildScreen = ({ navigation }) => {
             age--;
         }
         return age;
+    };
+
+    const onConfirmDateOfBirth = (event, selectedDate) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            setDateOfBirth(selectedDate);
+            setFormData({ ...formData, dateOfBirth: selectedDate.toISOString().split('T')[0] }); // Update formData with selected date
+        }
     };
 
     return (
@@ -101,12 +111,19 @@ export const RegisterChildScreen = ({ navigation }) => {
                     style={styles.input}
                     keyboardType="phone-pad"
                 />
-                <Button onPress={() => setDialogVisible(true)} style={styles.input}>
+                <TextInput
+                    label="Email du parent"
+                    value={formData.parentEmail}
+                    onChangeText={(text) => setFormData({ ...formData, parentEmail: text })}
+                    style={styles.input}
+                    keyboardType="email-address"
+                />
+                <Button mode="outlined" onPress={() => setDialogVisible(true)} style={styles.input}>
                     {formData.category || "Choisir une catégorie"}
                 </Button>
                 <Portal>
                     <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-                        <Dialog.Title>Catégories</Dialog.Title>
+                        <Dialog.Title>Choisir une catégorie</Dialog.Title>
                         <Dialog.Content>
                             {categories.map((category) => (
                                 <List.Item
@@ -121,16 +138,13 @@ export const RegisterChildScreen = ({ navigation }) => {
                         </Dialog.Content>
                     </Dialog>
                 </Portal>
-                <Button onPress={() => setShowDatePicker(true)} style={styles.button}>
-                    Date de Naissance: {dateOfBirth.toLocaleDateString()}
-                </Button>
+                <RNButton title="Date de Naissance" onPress={() => setShowDatePicker(true)} />
                 {showDatePicker && (
                     <DateTimePicker
                         value={dateOfBirth}
                         mode="date"
                         display="default"
                         onChange={onConfirmDateOfBirth}
-                        maximumDate={new Date()}
                     />
                 )}
                 <Button mode="contained" onPress={handleRegister} style={styles.button}>
