@@ -12,16 +12,23 @@ import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useChild } from "../../contexts/ChildContext";
 
-
 export const RegisterChildScreen = ({ navigation }) => {
 	const [childFirstName, setChildFirstName] = useState("");
 	const [childLastName, setChildLastName] = useState("");
 	const [childDateOfBirth, setChildDateOfBirth] = useState("");
 	const [childEmail, setChildEmail] = useState("");
-    const [password, setPassword] = useState("");
+	const [pass, setPass] = useState("");
 	const [childPhone, setChildPhone] = useState("");
 	const [category, setCategory] = useState("");
-	const [isOpen, setIsOpen] = useState(false);
+
+	const [firstNameError, setFirstNameError] = useState(false);
+	const [lastNameError, setLastNameError] = useState(false);
+	const [dateOfBirthError, setDateOfBirthError] = useState(false);
+	const [emailError, setEmailError] = useState(false);
+	const [passwordError, setPasswordError] = useState(false);
+	const [phoneError, setPhoneError] = useState(false);
+	const [categoryError, setCategoryError] = useState(false);
+
 	const [date, setDate] = useState(new Date());
 	const [mode, setMode] = useState("date");
 	const [show, setShow] = useState(false);
@@ -38,6 +45,7 @@ export const RegisterChildScreen = ({ navigation }) => {
 		setEmail,
 		setPhone,
 		setCat,
+		setPassword,
 	} = useChild();
 
 	const onChange = (event, selectedDate) => {
@@ -68,31 +76,61 @@ export const RegisterChildScreen = ({ navigation }) => {
 	};
 
 	const handleRegisterChild = () => {
-		console.log("pouet");
+		if (childLastName === "") {
+			console.log("last name error");
+			setLastNameError(true);
+			return;
+		}
+		if (childFirstName === "") {
+			console.log("first name error");
+			setFirstNameError(true);
+			return;
+		}
+		if (childDateOfBirth === "") {
+			console.log("date of birth error");
+			setDateOfBirthError(true);
+			return;
+		}
+		if (childEmail === "") {
+			console.log("email error");
+			setEmailError(true);
+			return;
+		}
+		if (pass === "") {
+			console.log("password error");
+			setPasswordError(true);
+			return;
+		}
+		if (childPhone === "") {
+			console.log("phone error");
+			setPhoneError(true);
+			return;
+		}
+		if (category === "") {
+			console.log("category error");
+			setCategoryError(true);
+			return;
+		}
+		console.log("valid check");
 		setLastName(childLastName);
 		setFirstName(childFirstName);
 		setDateOfBirth(childDateOfBirth);
 		setEmail(childEmail);
-        setPassword(password)
+		setPassword(pass);
 		setPhone(childPhone);
 		setCat(category);
-        console.log("Date de naissance de l'enfant :", childDateOfBirth);
-        console.log("Année actuelle :", new Date().getFullYear());
-        console.log("Différence d'années :", 2024 - date.getFullYear());
-        if (!password) {
-            console.error("Le mot de passe de l'enfant n'est pas défini.");
-            return;
-        }
+
 		if (2024 - date.getFullYear() > 15) {
-            console.log("L'enfant a plus de 15 ans");
+			console.log("L'enfant a plus de 15 ans");
 			navigation.navigate("ValidChild");
-		} else{
-            console.log("L'enfant a moins de 15 ans");
-        }
+		} else {
+			console.log("L'enfant a moins de 15 ans");
+			navigation.navigate("ValidChild");
+		}
 
 		// navigation.navigate("ValidChild");
 	};
-  
+
 	return (
 		<KeyboardAvoidingView
 			style={styles.container}
@@ -108,13 +146,29 @@ export const RegisterChildScreen = ({ navigation }) => {
 					style={styles.input}
 					label="Nom de l'enfant"
 					value={childLastName}
-					onChangeText={setChildLastName}
+					onChangeText={(text) => {
+						setChildLastName(text);
+						if (text === "") {
+							setLastNameError(true);
+						} else {
+							setLastNameError(false);
+						}
+					}}
+					error={lastNameError}
 				/>
 				<TextInput
 					style={styles.input}
 					label="Prénom de l'enfant"
 					value={childFirstName}
-					onChangeText={setChildFirstName}
+					onChangeText={(text) => {
+						setChildFirstName(text);
+						if (text === "") {
+							setFirstNameError(true);
+						} else {
+							setFirstNameError(false);
+						}
+					}}
+					error={firstNameError}
 				/>
 				<Button title='Open' onPress={showDatepicker}>
 					{childDateOfBirth === "" ? "selectionner une date" : childDateOfBirth}
@@ -133,22 +187,46 @@ export const RegisterChildScreen = ({ navigation }) => {
 					style={styles.input}
 					label='Email'
 					value={childEmail}
-					onChangeText={setChildEmail}
 					keyboardType='email-address'
+					onChangeText={(text) => {
+						setChildEmail(text);
+						if (text === "") {
+							setEmailError(true);
+						} else {
+							setEmailError(false);
+						}
+					}}
+					error={emailError}
 				/>
-                <TextInput
-                    style={styles.input}
-                    label='Mot de passe'
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true} // Pour masquer le texte du mot de passe
-                />
+				<TextInput
+					style={styles.input}
+					label='Mot de passe'
+					value={pass}
+					secureTextEntry={true} // Pour masquer le texte du mot de passe
+					onChangeText={(text) => {
+						setPass(text);
+						if (text === "") {
+							setPasswordError(true);
+						} else {
+							setPasswordError(false);
+						}
+					}}
+					error={passwordError}
+				/>
 				<TextInput
 					style={styles.input}
 					label='Téléphone'
 					value={childPhone}
-					onChangeText={setChildPhone}
 					keyboardType='phone-pad'
+					onChangeText={(text) => {
+						setChildPhone(text);
+						if (text === "") {
+							setPhoneError(true);
+						} else {
+							setPhoneError(false);
+						}
+					}}
+					error={phoneError}
 				/>
 				<Button
 					mode='outlined'

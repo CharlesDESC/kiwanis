@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { TextInput, Button } from "react-native-paper";
 
 export const LoginScreen = () => {
 	const [email, setEmail] = useState("");
@@ -30,8 +31,14 @@ export const LoginScreen = () => {
 				value={password}
 				onChangeText={setPassword}
 			/>
-			<Button title='Se connecter' onPress={handleLogin} />
-			<Button title="S'inscrire" onPress={goToRegister} />
+			<View style={styles.buttonContainer}>
+				<Button mode='contained' onPress={handleLogin}>
+					Se connecter
+				</Button>
+				<Button mode='contained' onPress={goToRegister}>
+					S'inscrire
+				</Button>
+			</View>
 		</View>
 	);
 };
@@ -41,14 +48,16 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		padding: 16,
+		width: "90%",
+		alignSelf: "center",
+		rowGap: 10,
 	},
 	input: {
 		width: "100%",
-		height: 40,
-		borderColor: "gray",
-		borderWidth: 1,
-		marginBottom: 12,
-		paddingHorizontal: 8,
+	},
+	buttonContainer: {
+		width: "100%",
+		flexDirection: "row",
+		justifyContent: "space-between",
 	},
 });

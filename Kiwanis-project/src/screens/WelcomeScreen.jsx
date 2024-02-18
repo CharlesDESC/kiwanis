@@ -15,19 +15,19 @@ export const WelcomeScreen = () => {
 	};
 
 	const invite = () => {
-		// navigation.navigate("Invite");
-		console.log("Button pressed");
+		navigation.navigate("Home");
 	};
 
 	return (
 		<View
 			style={{
 				flex: 1,
+				width: "70%",
 				justifyContent: "center",
-				rowGap: 10,
+				alignSelf: "center",
+				rowGap: 20,
 			}}
 		>
-			<Text>Welcome to the Home Screen!</Text>
 			<Button mode='contained' onPress={moveToRegister}>
 				<Text>s'incrire</Text>
 			</Button>
@@ -35,8 +35,8 @@ export const WelcomeScreen = () => {
 			<Button mode='contained' onPress={moveToLogin}>
 				<Text>se connecter</Text>
 			</Button>
-			<Button mode='contained' onPress={invite}>
-				<Text>invité mode</Text>
+			<Button mode='outlined' onPress={invite}>
+				invité mode
 			</Button>
 		</View>
 	);
