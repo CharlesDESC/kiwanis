@@ -4,9 +4,9 @@ import { Button, TextInput, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../../../firebaseConfig"; 
+import { auth, db } from "../../../firebaseConfig";
 import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid'; // Nécessite `npm install uuid` ou `yarn add uuid`
+import { v4 as uuidv4 } from 'uuid';
 
 const categories = ["École", "Collège", "Lycée"];
 
@@ -18,7 +18,7 @@ export const RegisterChildScreen = ({ navigation }) => {
         password: "",
         phone: "",
         category: "",
-        parentEmail: "", // Email du parent pour l'autorisation
+        parentEmail: "",
     });
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -28,23 +28,28 @@ export const RegisterChildScreen = ({ navigation }) => {
         const age = calculateAge(dateOfBirth);
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
-            const activationCode = uuidv4(); // Générer un code d'activation unique
-
+            // Excluez le mot de passe des données à enregistrer dans Firestore
+            const { password, ...userDataWithoutPassword } = formData;
+    
             if (age < 15) {
+                const activationCode = uuidv4();
+                // Ajoutez ici les informations de l'utilisateur, sans le mot de passe, à 'mailActivations'
                 await addDoc(collection(db, "mailActivations"), {
                     to: formData.parentEmail,
                     message: {
                         subject: "Activation du compte nécessaire",
-                        html: `Bonjour, <br> Veuillez activer le compte de votre enfant en cliquant sur le lien suivant: <a href="https://example.com/activate?uid=${userCredential.user.uid}&code=${activationCode}">Activer le compte</a>.`,
+                        html: `Bonjour, <br> Pour activer le compte de ${formData.firstName}, veuillez cliquer sur le lien suivant: <a href="https://your-activation-link.com?uid=${userCredential.user.uid}&code=${activationCode}">Activer le compte</a>.`,
                     },
                     activationCode,
                     uid: userCredential.user.uid,
                     authorized: false,
+                    ...userDataWithoutPassword, // Utilisez les données sans le mot de passe
                 });
-                Alert.alert("Inscription en attente", "Un email de consentement a été envoyé à vos parents.");
+                Alert.alert("Inscription en attente", "Un email de consentement a été envoyé au parent.");
             } else {
+                // Ajoutez ici les informations de l'utilisateur, sans le mot de passe, à 'users'
                 await addDoc(collection(db, "users"), {
-                    ...formData,
+                    ...userDataWithoutPassword, // Utilisez les données sans le mot de passe
                     dateOfBirth: dateOfBirth.toISOString(),
                     activated: true,
                 });
@@ -55,6 +60,7 @@ export const RegisterChildScreen = ({ navigation }) => {
             Alert.alert("Erreur d'inscription", error.message);
         }
     };
+    
 
     const calculateAge = (dob) => {
         const today = new Date();
@@ -71,7 +77,7 @@ export const RegisterChildScreen = ({ navigation }) => {
         setShowDatePicker(false);
         if (selectedDate) {
             setDateOfBirth(selectedDate);
-            setFormData({ ...formData, dateOfBirth: selectedDate.toISOString().split('T')[0] }); // Update formData with selected date
+            setFormData({ ...formData, dateOfBirth: selectedDate.toISOString().split('T')[0] });
         }
     };
 
@@ -81,40 +87,40 @@ export const RegisterChildScreen = ({ navigation }) => {
                 <TextInput
                     label="Prénom"
                     value={formData.firstName}
-                    onChangeText={(text) => setFormData({ ...formData, firstName: text })}
+                    onChangeText={text => setFormData({ ...formData, firstName: text })}
                     style={styles.input}
                 />
                 <TextInput
                     label="Nom"
                     value={formData.lastName}
-                    onChangeText={(text) => setFormData({ ...formData, lastName: text })}
+                    onChangeText={text => setFormData({ ...formData, lastName: text })}
                     style={styles.input}
                 />
                 <TextInput
                     label="Email"
                     value={formData.email}
-                    onChangeText={(text) => setFormData({ ...formData, email: text })}
+                    onChangeText={text => setFormData({ ...formData, email: text })}
                     style={styles.input}
                     keyboardType="email-address"
                 />
                 <TextInput
                     label="Mot de passe"
                     value={formData.password}
-                    onChangeText={(text) => setFormData({ ...formData, password: text })}
+                    onChangeText={text => setFormData({ ...formData, password: text })}
                     style={styles.input}
                     secureTextEntry
                 />
                 <TextInput
                     label="Téléphone"
                     value={formData.phone}
-                    onChangeText={(text) => setFormData({ ...formData, phone: text })}
+                    onChangeText={text => setFormData({ ...formData, phone: text })}
                     style={styles.input}
                     keyboardType="phone-pad"
                 />
                 <TextInput
-                    label="Email du parent"
+                    label="Email du parent (pour les utilisateurs de moins de 15 ans)"
                     value={formData.parentEmail}
-                    onChangeText={(text) => setFormData({ ...formData, parentEmail: text })}
+                    onChangeText={text => setFormData({ ...formData, parentEmail: text })}
                     style={styles.input}
                     keyboardType="email-address"
                 />
@@ -138,9 +144,12 @@ export const RegisterChildScreen = ({ navigation }) => {
                         </Dialog.Content>
                     </Dialog>
                 </Portal>
-                <RNButton title="Date de Naissance" onPress={() => setShowDatePicker(true)} />
+                <Button onPress={() => setShowDatePicker(true)} style={styles.input}>
+                    Sélectionner la date de naissance
+                </Button>
                 {showDatePicker && (
                     <DateTimePicker
+                        testID="dateTimePicker"
                         value={dateOfBirth}
                         mode="date"
                         display="default"
@@ -163,9 +172,9 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     input: {
-        marginBottom: 16,
+        marginBottom: 12,
     },
     button: {
-        marginTop: 16,
+        marginTop: 12,
     },
 });
