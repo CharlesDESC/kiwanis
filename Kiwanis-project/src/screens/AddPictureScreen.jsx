@@ -1,59 +1,119 @@
+import * as ImagePicker from 'expo-image-picker';
+import { View, PermissionsAndroid ,  Platform, Image} from "react-native";
+import { Text, Button } from "react-native-paper";
 import React, { useState } from 'react';
-//import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-//import { addDoc, collection, getFirestore } from "firebase/firestore";
+import StyleSheet from 'react-native';
 
-const AddPictureScreen = () => {
-  const [file, setFile] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    setErrorMessage(''); // Reset l'erreur message
-  };
+export const AddPictureScreen = () => {
+const [imageUri, setImageUri] = useState(null);
 
-  const validateImage = (image) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = window.URL.createObjectURL(image);
-      img.onload = () => {
-        if (img.width >= 2584 && img.height >= 1946) {
-          resolve(true);
-        } else {
-          reject('La photo doit être au minimum de 2584x1946 pixels pour un tirage en 30x40 cm.');
-        }
-      };
-    });
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      setErrorMessage('Veuillez sélectionner une image.');
-      return;
-    }
-
+const requestCameraPermission = async () => {
+  if (Platform.OS === 'android') {
     try {
-      await validateImage(file);
-      const storage = getStorage();
-      const fileRef = storageRef(storage, `images/${file.name}`);
-      const snapshot = await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(snapshot.ref);
-
-      const db = getFirestore();
-      await addDoc(collection(db, "images"), { url });
-      console.log('Image téléchargée et URL enregistrée avec succès');
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(error.toString());
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Camera Permission",
+          message: "App needs camera permission",
+        },
+      );
+      // Si la permission est refusée
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("Camera permission given");
+        takePhoto();
+      } else {
+        console.log("Camera permission denied");
+      }
+    } catch (err) {
+      conole.warn(err);
     }
-  };
+  } else {
+    console.log("Camera permission denied");
+  }
 
-  return (
-    <div>
-      <input type="file" onChange={handleFileChange} accept="image/*" />
-      <button onClick={handleUpload}>Upload</button>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-    </div>
-  );
+ if (Platform.OS === 'ios') {
+  // Demande de permission pour iOS
+  const { status } = await ImagePicker.requestCameraPermissionsAsync();
+  if (status === 'granted') {
+    console.log("Camera permission given");
+    takePhoto();
+  } else {
+    console.warn("Camera permission denied");
+  }
+
+}
+
 };
 
-export default AddPictureScreen;
+const takePhoto = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+        console.log(result);
+        console.log(result.uri);
+        setImageUri(result.assets[0].uri);
+    }
+
+}
+const choosePhotoFromLibrary = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+        console.log(result);
+        console.log(result.assets[0].uri)
+        console.log(result.uri);
+        setImageUri(result.assets[0].uri);
+    }
+
+
+}
+
+const postPhoto = async () => {
+    console.log("Not yet !")
+
+}
+
+return (
+    <View
+        style={{
+            flex: 1,
+            justifyContent: "center",
+            rowGap: 10,
+            backgroundColor: "white",
+        }}
+    >
+        <Text  style={{
+            textAlign: "center"
+        }}>Welcome to the Picutre Screen!</Text>
+        <Button mode='contained' onPress={choosePhotoFromLibrary}>
+            <Text>Choose from Library</Text>
+        </Button>
+
+        <Button mode='contained' onPress={requestCameraPermission}>
+            <Text>Take a Photo</Text>
+        </Button>
+        <Text style={{
+            textAlign: "center"
+        }}>Your photo :</Text>
+
+        {imageUri && <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 , alignSelf: 'center', borderRadius: 150 /10, borderColor: 'rgba(1, 57, 117, .1)', borderWidth: 3, opacity: 5}} />}
+
+        <Button mode='contained' onPress={postPhoto}>
+            <Text>Validate</Text>
+        </Button>
+
+    </View>
+);
+
+}

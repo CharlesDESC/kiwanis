@@ -13,7 +13,7 @@ export const LoginScreen = () => {
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			Alert.alert("Succès", "Connexion réussie");
-			navigation.navigate("Main", { screen: "AddPictureScreen" });		} catch (error) {
+			navigation.navigate("Main", { screen: "AddPicture" });		} catch (error) {
 			Alert.alert("Erreur de connexion", error.message);
 		}
 	};
