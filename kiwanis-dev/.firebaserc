@@ -1,7 +1,0 @@
-{
-  "projects": {
-    "default": "kiwanis-dev",
-    "test": "kiwanis-test-dd86f",
-    "prod": "kiwanis-photos"
-  }
-}
