@@ -8,8 +8,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthStack } from "./src/navigation/AuthStack";
 import { WelcomeScreen } from "./src/screens/WelcomeScreen";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
-import { Header } from "./src/components/Header";
-import { BottomTabNavigator } from "./src/navigation/BottomTabNavigator";
+import { Header, HomeHeader } from "./src/components/Header";
+import { HomeScreen } from "./src/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,24 +41,24 @@ export default function App() {
 					screenOptions={{
 						headerStyle: {
 							backgroundColor: NavTheme.colors.background,
+							headerShown: true,
 						},
-						header: () => <Header />,
 					}}
 				>
 					<Stack.Screen
 						name='Welcome'
 						component={WelcomeScreen}
-						options={{ headerShown: true }}
+						options={{ header: () => <Header /> }}
 					/>
 					<Stack.Screen
 						name='AuthStack'
 						component={AuthStack}
-						options={{ headerShown: true }}
+						options={{ header: () => <Header /> }}
 					/>
 					<Stack.Screen
 						name='Home'
-						component={BottomTabNavigator}
-						options={{ headerShown: false }}
+						component={HomeScreen}
+						options={{ header: () => <HomeHeader /> }}
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>

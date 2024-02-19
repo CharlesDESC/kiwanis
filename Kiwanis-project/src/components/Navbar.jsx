@@ -1,21 +1,42 @@
-import React from "react";
-import { View, Text, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Image, TouchableOpacity, Modal } from "react-native";
+import { UpPicture } from "../components/UpPicture";
 
 export const Navbar = () => {
+	const [modalVisible, setModalVisible] = useState(false);
+	const HandleModal = () => {
+		setModalVisible(!modalVisible);
+		console.log(modalVisible);
+	};
+
+	if (modalVisible) {
+		return (
+			<Modal visible={modalVisible} animationType='slide'>
+				<UpPicture />
+			</Modal>
+		);
+	}
+
 	return (
 		<View style={styles.navbar}>
-			<Image
-				source={require("../assets/accLogo.png")}
-				style={styles.navbarImage}
-			/>
-			<Image
-				source={require("../assets/photoLogo.png")}
-				style={styles.navbarImage}
-			/>
-			<Image
-				source={require("../assets/burgerMenu.png")}
-				style={styles.navbarImage}
-			/>
+			<TouchableOpacity>
+				<Image
+					source={require("../assets/accLogo.png")}
+					style={styles.navbarImage}
+				/>
+			</TouchableOpacity>
+			<TouchableOpacity onPress={HandleModal}>
+				<Image
+					source={require("../assets/photoLogo.png")}
+					style={styles.navbarImage}
+				/>
+			</TouchableOpacity>
+			<TouchableOpacity>
+				<Image
+					source={require("../assets/burgerMenu.png")}
+					style={styles.navbarImage}
+				/>
+			</TouchableOpacity>
 		</View>
 	);
 };
