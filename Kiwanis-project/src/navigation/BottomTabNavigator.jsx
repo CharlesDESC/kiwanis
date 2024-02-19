@@ -16,9 +16,9 @@ export const BottomTabNavigator = () => {
 			}}
 			tabBar={() => <Navbar />}
 		>
-			<Tab.Screen name='Home' component={HomeScreen} />
-			<Tab.Screen name='Profile' component={ProfileScreen} />
-			<Tab.Screen name='AddPicture' component={AddPictureScreen} />
+			<Tab.Screen name='HomeScreen' component={HomeScreen} />
+			<Tab.Screen name='ProfileScreen' component={ProfileScreen} />
+			<Tab.Screen name='AddPictureScreen' component={AddPictureScreen} />
 		</Tab.Navigator>
 	);
 };

@@ -15,7 +15,10 @@ export const WelcomeScreen = () => {
 	};
 
 	const invite = () => {
-		navigation.navigate("Home");
+		navigation.reset({
+			index: 0,
+			routes: [{ name: "Home" }],
+		});
 	};
 
 	return (
