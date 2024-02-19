@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
+// import firestore from '@react-native-firebase/firestore';
 
 export const ParentScreen = ({ route, navigation }) => {
 	const { childId } = route.params; // Assurez-vous de passer l'ID de l'enfant comme paramètre lors de la navigation

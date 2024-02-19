@@ -1,309 +1,180 @@
-import React, { useState, useRef } from "react";
-import {
-	View,
-	StyleSheet,
-	Alert,
-	Image,
-	Text,
-	ScrollView,
-	KeyboardAvoidingView,
-} from "react-native";
-import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, View, KeyboardAvoidingView, Platform, Alert, Button as RNButton } from "react-native";
+import { Button, TextInput, Dialog, Portal, List } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useChild } from "../../contexts/ChildContext";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { auth, db } from "../../../firebaseConfig";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+
+const categories = ["École", "Collège", "Lycée"];
 
 export const RegisterChildScreen = ({ navigation }) => {
-	const [childFirstName, setChildFirstName] = useState("");
-	const [childLastName, setChildLastName] = useState("");
-	const [childDateOfBirth, setChildDateOfBirth] = useState("");
-	const [childEmail, setChildEmail] = useState("");
-	const [pass, setPass] = useState("");
-	const [childPhone, setChildPhone] = useState("");
-	const [category, setCategory] = useState("");
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        phone: "",
+        category: "",
+        parentEmail: "",
+    });
+    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
 
-	const [firstNameError, setFirstNameError] = useState(false);
-	const [lastNameError, setLastNameError] = useState(false);
-	const [dateOfBirthError, setDateOfBirthError] = useState(false);
-	const [emailError, setEmailError] = useState(false);
-	const [passwordError, setPasswordError] = useState(false);
-	const [phoneError, setPhoneError] = useState(false);
-	const [categoryError, setCategoryError] = useState(false);
+    const handleRegister = async () => {
+        const age = calculateAge(dateOfBirth);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+            // Excluez le mot de passe des données à enregistrer dans Firestore
+            const { password, ...userDataWithoutPassword } = formData;
+    
+            if (age < 15) {
+                const activationCode = uuidv4();
+                // Ajoutez ici les informations de l'utilisateur, sans le mot de passe, à 'mailActivations'
+                await addDoc(collection(db, "mailActivations"), {
+                    to: formData.parentEmail,
+                    message: {
+                        subject: "Activation du compte nécessaire",
+                        html: `Bonjour, <br> Pour activer le compte de ${formData.firstName}, veuillez cliquer sur le lien suivant: <a href="https://your-activation-link.com?uid=${userCredential.user.uid}&code=${activationCode}">Activer le compte</a>.`,
+                    },
+                    activationCode,
+                    uid: userCredential.user.uid,
+                    authorized: false,
+                    ...userDataWithoutPassword, // Utilisez les données sans le mot de passe
+                });
+                Alert.alert("Inscription en attente", "Un email de consentement a été envoyé au parent.");
+            } else {
+                // Ajoutez ici les informations de l'utilisateur, sans le mot de passe, à 'users'
+                await addDoc(collection(db, "users"), {
+                    ...userDataWithoutPassword, // Utilisez les données sans le mot de passe
+                    dateOfBirth: dateOfBirth.toISOString(),
+                    activated: true,
+                });
+                navigation.navigate("ValidChild", { userUid: userCredential.user.uid });
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'inscription :", error);
+            Alert.alert("Erreur d'inscription", error.message);
+        }
+    };
+    
 
-	const [date, setDate] = useState(new Date());
-	const [mode, setMode] = useState("date");
-	const [show, setShow] = useState(false);
+    const calculateAge = (dob) => {
+        const today = new Date();
+        const birthDate = new Date(dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
 
-	const [visible, setVisible] = useState(false);
-	const showDialog = () => setVisible(true);
-	const hideDialog = () => setVisible(false);
+    const onConfirmDateOfBirth = (event, selectedDate) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            setDateOfBirth(selectedDate);
+            setFormData({ ...formData, dateOfBirth: selectedDate.toISOString().split('T')[0] });
+        }
+    };
 
-	const scrollViewRef = useRef();
-	const {
-		setLastName,
-		setFirstName,
-		setDateOfBirth,
-		setEmail,
-		setPhone,
-		setCat,
-		setPassword,
-	} = useChild();
-
-	const onChange = (event, selectedDate) => {
-		const currentDate = selectedDate;
-		setShow(false);
-		const formattedDate = `${currentDate
-			.getDate()
-			.toString()
-			.padStart(2, "0")}/${(currentDate.getMonth() + 1)
-			.toString()
-			.padStart(2, "0")}/${currentDate.getFullYear()}`;
-		console.log(
-			currentDate.getDate(),
-			currentDate.getMonth(),
-			currentDate.getFullYear()
-		);
-		console.log("selectedDate" + formattedDate);
-		setDate(currentDate);
-		setChildDateOfBirth(formattedDate);
-	};
-	const showMode = (currentMode) => {
-		setShow(true);
-		setMode(currentMode);
-	};
-
-	const showDatepicker = () => {
-		showMode("date");
-	};
-
-	const handleRegisterChild = () => {
-		if (childLastName === "") {
-			console.log("last name error");
-			setLastNameError(true);
-			return;
-		}
-		if (childFirstName === "") {
-			console.log("first name error");
-			setFirstNameError(true);
-			return;
-		}
-		if (childDateOfBirth === "") {
-			console.log("date of birth error");
-			setDateOfBirthError(true);
-			return;
-		}
-		if (childEmail === "") {
-			console.log("email error");
-			setEmailError(true);
-			return;
-		}
-		if (pass === "") {
-			console.log("password error");
-			setPasswordError(true);
-			return;
-		}
-		if (childPhone === "") {
-			console.log("phone error");
-			setPhoneError(true);
-			return;
-		}
-		if (category === "") {
-			console.log("category error");
-			setCategoryError(true);
-			return;
-		}
-		console.log("valid check");
-		setLastName(childLastName);
-		setFirstName(childFirstName);
-		setDateOfBirth(childDateOfBirth);
-		setEmail(childEmail);
-		setPassword(pass);
-		setPhone(childPhone);
-		setCat(category);
-
-		if (2024 - date.getFullYear() > 15) {
-			console.log("L'enfant a plus de 15 ans");
-			navigation.navigate("ValidChild");
-		} else {
-			console.log("L'enfant a moins de 15 ans");
-			navigation.navigate("ValidChild");
-		}
-
-		// navigation.navigate("ValidChild");
-	};
-
-	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === "ios" ? "padding" : null}
-			keyboardVerticalOffset={Platform.OS === "ios" ? 250 : 0}
-		>
-			<ScrollView
-				ref={scrollViewRef}
-				style={styles.scrollView}
-				contentContainerStyle={styles.scrollViewContainer}
-			>
-				<TextInput
-					style={styles.input}
-					label="Nom de l'enfant"
-					value={childLastName}
-					onChangeText={(text) => {
-						setChildLastName(text);
-						if (text === "") {
-							setLastNameError(true);
-						} else {
-							setLastNameError(false);
-						}
-					}}
-					error={lastNameError}
-				/>
-				<TextInput
-					style={styles.input}
-					label="Prénom de l'enfant"
-					value={childFirstName}
-					onChangeText={(text) => {
-						setChildFirstName(text);
-						if (text === "") {
-							setFirstNameError(true);
-						} else {
-							setFirstNameError(false);
-						}
-					}}
-					error={firstNameError}
-				/>
-				<Button title='Open' onPress={showDatepicker}>
-					{childDateOfBirth === "" ? "selectionner une date" : childDateOfBirth}
-				</Button>
-				{show && (
-					<DateTimePicker
-						testID='dateTimePicker'
-						value={date}
-						mode={mode}
-						is24Hour={true}
-						onChange={onChange}
-					/>
-				)}
-
-				<TextInput
-					style={styles.input}
-					label='Email'
-					value={childEmail}
-					keyboardType='email-address'
-					onChangeText={(text) => {
-						setChildEmail(text);
-						if (text === "") {
-							setEmailError(true);
-						} else {
-							setEmailError(false);
-						}
-					}}
-					error={emailError}
-				/>
-				<TextInput
-					style={styles.input}
-					label='Mot de passe'
-					value={pass}
-					secureTextEntry={true} // Pour masquer le texte du mot de passe
-					onChangeText={(text) => {
-						setPass(text);
-						if (text === "") {
-							setPasswordError(true);
-						} else {
-							setPasswordError(false);
-						}
-					}}
-					error={passwordError}
-				/>
-				<TextInput
-					style={styles.input}
-					label='Téléphone'
-					value={childPhone}
-					keyboardType='phone-pad'
-					onChangeText={(text) => {
-						setChildPhone(text);
-						if (text === "") {
-							setPhoneError(true);
-						} else {
-							setPhoneError(false);
-						}
-					}}
-					error={phoneError}
-				/>
-				<Button
-					mode='outlined'
-					onPress={showDialog}
-					contentStyle={styles.fakeInputContent}
-					labelStyle={styles.fakeInputLabel}
-					style={styles.fakeInput}
-					icon='menu-down'
-				>
-					{category || "Choisir une catégorie"}
-				</Button>
-
-				<Portal>
-					<Dialog visible={visible} onDismiss={hideDialog}>
-						<Dialog.Title>Choisir une catégorie</Dialog.Title>
-						<Dialog.Content>
-							{["École", "Collège", "Lycée"].map((cat) => (
-								<List.Item
-									key={cat}
-									title={cat}
-									onPress={() => {
-										setCategory(cat);
-										hideDialog();
-									}}
-								/>
-							))}
-						</Dialog.Content>
-					</Dialog>
-				</Portal>
-				<Button mode='contained' onPress={handleRegisterChild}>
-					Valider
-				</Button>
-			</ScrollView>
-		</KeyboardAvoidingView>
-	);
+    return (
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <TextInput
+                    label="Prénom"
+                    value={formData.firstName}
+                    onChangeText={text => setFormData({ ...formData, firstName: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    label="Nom"
+                    value={formData.lastName}
+                    onChangeText={text => setFormData({ ...formData, lastName: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    label="Email"
+                    value={formData.email}
+                    onChangeText={text => setFormData({ ...formData, email: text })}
+                    style={styles.input}
+                    keyboardType="email-address"
+                />
+                <TextInput
+                    label="Mot de passe"
+                    value={formData.password}
+                    onChangeText={text => setFormData({ ...formData, password: text })}
+                    style={styles.input}
+                    secureTextEntry
+                />
+                <TextInput
+                    label="Téléphone"
+                    value={formData.phone}
+                    onChangeText={text => setFormData({ ...formData, phone: text })}
+                    style={styles.input}
+                    keyboardType="phone-pad"
+                />
+                <TextInput
+                    label="Email du parent (pour les utilisateurs de moins de 15 ans)"
+                    value={formData.parentEmail}
+                    onChangeText={text => setFormData({ ...formData, parentEmail: text })}
+                    style={styles.input}
+                    keyboardType="email-address"
+                />
+                <Button mode="outlined" onPress={() => setDialogVisible(true)} style={styles.input}>
+                    {formData.category || "Choisir une catégorie"}
+                </Button>
+                <Portal>
+                    <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
+                        <Dialog.Title>Choisir une catégorie</Dialog.Title>
+                        <Dialog.Content>
+                            {categories.map((category) => (
+                                <List.Item
+                                    key={category}
+                                    title={category}
+                                    onPress={() => {
+                                        setFormData({ ...formData, category });
+                                        setDialogVisible(false);
+                                    }}
+                                />
+                            ))}
+                        </Dialog.Content>
+                    </Dialog>
+                </Portal>
+                <Button onPress={() => setShowDatePicker(true)} style={styles.input}>
+                    Sélectionner la date de naissance
+                </Button>
+                {showDatePicker && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={dateOfBirth}
+                        mode="date"
+                        display="default"
+                        onChange={onConfirmDateOfBirth}
+                    />
+                )}
+                <Button mode="contained" onPress={handleRegister} style={styles.button}>
+                    S'inscrire
+                </Button>
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	scrollView: {
-		width: "100%",
-	},
-	scrollViewContainer: {
-		flexGrow: 1,
-		justifyContent: "center",
-		padding: 20,
-	},
-	inner: {
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	input: {
-		width: "100%",
-		marginBottom: 10,
-	},
-	logo: {
-		width: 150,
-		height: 150,
-	},
-	fakeInput: {
-		width: "100%",
-		marginBottom: 10,
-		borderColor: "grey", // Pour simuler le bord d'un TextInput
-	},
-	fakeInputContent: {
-		height: 58, // Hauteur standard d'un TextInput
-	},
-	fakeInputLabel: {
-		lineHeight: 58, // Aligner le texte verticalement
-	},
-	paragraph: {
-		textAlign: "center", // Centre le texte
-		marginBottom: 20, // Espacement avant le reste du formulaire
-		fontSize: 16, // Taille de la police
-	},
+    container: {
+        flex: 1,
+    },
+    contentContainer: {
+        padding: 16,
+    },
+    input: {
+        marginBottom: 12,
+    },
+    button: {
+        marginTop: 12,
+    },
 });

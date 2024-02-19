@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 import { TextInput, Button } from "react-native-paper";
 
 export const LoginScreen = () => {
@@ -8,8 +10,14 @@ export const LoginScreen = () => {
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
 
-	const handleLogin = () => {
-		// Logique de connexion ici
+	const handleLogin = async () => {
+		try {
+			await signInWithEmailAndPassword(auth, email, password);
+			Alert.alert("Succès", "Connexion réussie");
+			navigation.navigate("Main", { screen: "AddPicture" });
+		} catch (error) {
+			Alert.alert("Erreur de connexion", error.message);
+		}
 	};
 
 	const goToRegister = () => {
@@ -32,11 +40,11 @@ export const LoginScreen = () => {
 				onChangeText={setPassword}
 			/>
 			<View style={styles.buttonContainer}>
-				<Button mode='contained' onPress={handleLogin}>
-					Se connecter
-				</Button>
 				<Button mode='contained' onPress={goToRegister}>
 					S'inscrire
+				</Button>
+				<Button mode='contained' onPress={handleLogin}>
+					Se connecter
 				</Button>
 			</View>
 		</View>
