@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RegisterChildScreen } from "../screens/register/RegisterChildScreen";
 import { ValidChildScreen } from "../screens/register/ValidChildScreen";
@@ -9,6 +10,8 @@ import { ChildProvider } from "../contexts/ChildContext";
 const Stack = createNativeStackNavigator();
 
 export const RegisterStack = () => {
+	const [emailExists, setEmailExists] = useState(false);
+	const [isActivated, setIsActivated] = useState(false);
 	const {
 		lastName,
 		setLastName,
