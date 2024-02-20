@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	Text,
 	Image,
 	TouchableOpacity,
 	Animated,
 	ScrollView,
 } from "react-native";
+import { Text } from "react-native-paper";
 
 export const Navbar = () => {
 	const [isMenuOpen, setMenuOpen] = useState(false);
 	const [navbarHeight] = useState(new Animated.Value(70));
 	const [showReglementDetails, setShowReglementDetails] = useState(false);
+	const [showAddPicture, setShowAddPicture] = useState(false);
 	const [showMentionsLegalesDetails, setShowMentionsLegalesDetails] =
 		useState(false);
 
@@ -22,6 +23,14 @@ export const Navbar = () => {
 			useNativeDriver: false,
 		}).start();
 	}, [isMenuOpen]);
+
+	useEffect(() => {
+		Animated.timing(navbarHeight, {
+			toValue: showAddPicture ? 700 : 70,
+			duration: 300,
+			useNativeDriver: false,
+		}).start();
+	}, [showAddPicture]);
 
 	const toggleMenu = (menuType) => {
 		if (menuType === "reglement") {
@@ -38,29 +47,24 @@ export const Navbar = () => {
 		}
 	};
 
+	const displayAddPicture = () => {
+		console.log(showAddPicture);
+		setShowAddPicture(!showAddPicture);
+	};
+
 	return (
 		<Animated.View
-			style={[
-				styles.navbar,
-				{
-					height: navbarHeight,
-					borderTopLeftRadius: isMenuOpen ? 0 : 12,
-					borderTopRightRadius: isMenuOpen ? 0 : 12,
-				},
-			]}
+			style={{
+				height: navbarHeight,
+				position: "absolute",
+				bottom: 0,
+				left: 0,
+				right: 0,
+				backgroundColor: "#E2A128",
+				borderTopLeftRadius: isMenuOpen ? 0 : 12,
+				borderTopRightRadius: isMenuOpen ? 0 : 12,
+			}}
 		>
-			{!isMenuOpen && (
-				<React.Fragment>
-					<Image
-						source={require("../assets/accLogo.png")}
-						style={styles.navbarImage}
-					/>
-					<Image
-						source={require("../assets/photoLogo.png")}
-						style={styles.navbarImage}
-					/>
-				</React.Fragment>
-			)}
 			{isMenuOpen && (
 				<View style={styles.menuContent}>
 					<TouchableOpacity
@@ -77,32 +81,58 @@ export const Navbar = () => {
 					</TouchableOpacity>
 					{showReglementDetails && (
 						<ScrollView style={styles.detailsContainer}>
-							<Text style={styles.detailsText}>{"Détails du règlement"}</Text>
+							<Text>{"Détails du règlement"}</Text>
 						</ScrollView>
 					)}
 					{showMentionsLegalesDetails && (
 						<ScrollView style={styles.detailsContainer}>
-							<Text style={styles.detailsText}>
-								{"Détails des mentions légales"}
-							</Text>
+							<Text>{"Détails des mentions légales"}</Text>
 						</ScrollView>
 					)}
 				</View>
 			)}
-
-			<TouchableOpacity
-				onPress={() => toggleMenu("")}
-				style={isMenuOpen ? styles.closeIconContainer : {}}
+			<View
+				style={{
+					width: "100%",
+					height: 70,
+					position: "absolute",
+					bottom: 0,
+					left: 0,
+					right: 0,
+					justifyContent: "center",
+				}}
 			>
-				<Image
-					source={
-						isMenuOpen
-							? require("../assets/croix.png")
-							: require("../assets/burgerMenu.png")
-					}
-					style={styles.navbarImage}
-				/>
-			</TouchableOpacity>
+				<View
+					style={{
+						flexDirection: "row",
+						width: "100%",
+						justifyContent: "space-around",
+					}}
+				>
+					<TouchableOpacity>
+						<Image
+							source={require("../assets/accLogo.png")}
+							style={styles.navbarImage}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={displayAddPicture}>
+						<Image
+							source={require("../assets/photoLogo.png")}
+							style={styles.navbarImage}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => toggleMenu("")}>
+						<Image
+							source={
+								isMenuOpen
+									? require("../assets/croix.png")
+									: require("../assets/burgerMenu.png")
+							}
+							style={styles.navbarImage}
+						/>
+					</TouchableOpacity>
+				</View>
+			</View>
 		</Animated.View>
 	);
 };
@@ -147,9 +177,5 @@ const styles = {
 	detailsContainer: {
 		flex: 1,
 		margin: 20,
-	},
-	detailsText: {
-		fontSize: 16,
-		color: "#000",
 	},
 };
