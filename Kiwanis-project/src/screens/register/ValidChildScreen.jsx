@@ -13,7 +13,7 @@ export const ValidChildScreen = ({ route, navigation }) => {
 				onPress={() => {
 					navigation.reset({
 						index: 0,
-						routes: [{ name: "Welcome" }],
+						routes: [{ name: "Home" }],
 					});
 				}}
 			/>
