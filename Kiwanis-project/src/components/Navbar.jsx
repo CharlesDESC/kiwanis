@@ -7,6 +7,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { Text } from "react-native-paper";
+import { UpPicture } from "./UpPicture";
 
 export const Navbar = () => {
 	const [isMenuOpen, setMenuOpen] = useState(false);
@@ -101,7 +102,7 @@ export const Navbar = () => {
 			)}
 			{showAddPicture && (
 				<View style={styles.menuContent}>
-					<Text>{"Ajouter une photo"}</Text>
+					<UpPicture />
 				</View>
 			)}
 			<View
