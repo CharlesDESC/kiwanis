@@ -14,7 +14,7 @@ export const LoginScreen = () => {
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			Alert.alert("Succès", "Connexion réussie");
-			navigation.navigate("Main", { screen: "AddPicture" });
+			navigation.navigate("Home");
 		} catch (error) {
 			Alert.alert("Erreur de connexion", error.message);
 		}
