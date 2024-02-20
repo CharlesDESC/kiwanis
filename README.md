@@ -18,9 +18,6 @@ Le Concours Photo Kiwanis vise à permettre aux élèves du CM2 à la terminale 
 - **React Native** - Framework de développement d'applications mobiles.
 - **Expo** - Plateforme pour le développement d'applications React Native.
 - **Firebase** - Service de cloud utilisé pour le stockage des photos.
-- **Expo Status Bar** - Barre d'état pour les applications Expo.
-- **React** - Bibliothèque pour la création d'interfaces utilisateur.
-- **React Native** - Framework pour construire des applications mobiles avec React.
 - **Babel Core** - Compilateur JavaScript utilisé pour la compatibilité avec différentes versions de JavaScript.
 
 ## Captures d'écran
