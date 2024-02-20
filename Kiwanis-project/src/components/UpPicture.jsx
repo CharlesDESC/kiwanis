@@ -119,17 +119,21 @@ export const UpPicture = () => {
 				height: "100%",
 				justifyContent: "center",
 				rowGap: 10,
-				backgroundColor: "white",
 			}}
 		>
-			<Text style={{ textAlign: "center" }}>
-				Welcome to the Picture Screen!
-			</Text>
-			<Button mode='contained' onPress={choosePhotoFromLibrary}>
-				<Text>Choose from Library</Text>
+			<Button
+				mode='contained'
+				contentStyle={{ backgroundColor: "#0B3364" }}
+				onPress={choosePhotoFromLibrary}
+			>
+				Choose from Library
 			</Button>
 
-			<Button mode='contained' onPress={requestCameraPermission}>
+			<Button
+				mode='contained'
+				onPress={requestCameraPermission}
+				contentStyle={{ backgroundColor: "#0B3364" }}
+			>
 				<Text>Take a Photo</Text>
 			</Button>
 			<Text style={{ textAlign: "center" }}>Your photo :</Text>
