@@ -17,38 +17,47 @@ export const Navbar = () => {
 		useState(false);
 
 	useEffect(() => {
-		Animated.timing(navbarHeight, {
-			toValue: isMenuOpen ? 700 : 70,
-			duration: 300,
-			useNativeDriver: false,
-		}).start();
+		if (!showAddPicture) {
+			Animated.timing(navbarHeight, {
+				toValue: isMenuOpen ? 700 : 70,
+				duration: 300,
+				useNativeDriver: false,
+			}).start();
+		}
 	}, [isMenuOpen]);
 
 	useEffect(() => {
-		Animated.timing(navbarHeight, {
-			toValue: showAddPicture ? 700 : 70,
-			duration: 300,
-			useNativeDriver: false,
-		}).start();
+		if (!isMenuOpen) {
+			Animated.timing(navbarHeight, {
+				toValue: showAddPicture ? 700 : 70,
+				duration: 300,
+				useNativeDriver: false,
+			}).start();
+		}
 	}, [showAddPicture]);
 
-	const toggleMenu = (menuType) => {
-		if (menuType === "reglement") {
-			setShowReglementDetails(!showReglementDetails);
-			setShowMentionsLegalesDetails(false);
-			// disable details et pas mentions légales
-		} else if (menuType === "mentionsLegales") {
-			setShowMentionsLegalesDetails(!showMentionsLegalesDetails);
+	const toggleMenu = () => {
+		setShowAddPicture(false);
+		if (isMenuOpen) {
+			setMenuOpen(false);
 			setShowReglementDetails(false);
+			setShowMentionsLegalesDetails(false);
 		} else {
-			setMenuOpen(!isMenuOpen);
-			setShowReglementDetails(false);
-			setShowMentionsLegalesDetails(false);
+			setMenuOpen(true);
 		}
 	};
 
+	const showReglement = () => {
+		setShowReglementDetails(true);
+		setShowMentionsLegalesDetails(false);
+	};
+	const showMentionsLegales = () => {
+		setShowMentionsLegalesDetails(true);
+		setShowReglementDetails(false);
+	};
+
 	const displayAddPicture = () => {
-		console.log(showAddPicture);
+		setMenuOpen(false);
 		setShowAddPicture(!showAddPicture);
 	};
 
@@ -61,21 +70,20 @@ export const Navbar = () => {
 				left: 0,
 				right: 0,
 				backgroundColor: "#E2A128",
-				borderTopLeftRadius: isMenuOpen ? 0 : 12,
-				borderTopRightRadius: isMenuOpen ? 0 : 12,
+				borderRadius: 12,
 			}}
 		>
 			{isMenuOpen && (
 				<View style={styles.menuContent}>
 					<TouchableOpacity
 						style={styles.menuText}
-						onPress={() => toggleMenu("reglement")}
+						onPress={() => showReglement()}
 					>
 						<Text>Règlement</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.menuText}
-						onPress={() => toggleMenu("mentionsLegales")}
+						onPress={() => showMentionsLegales()}
 					>
 						<Text>Mentions légales</Text>
 					</TouchableOpacity>
@@ -89,6 +97,11 @@ export const Navbar = () => {
 							<Text>{"Détails des mentions légales"}</Text>
 						</ScrollView>
 					)}
+				</View>
+			)}
+			{showAddPicture && (
+				<View style={styles.menuContent}>
+					<Text>{"Ajouter une photo"}</Text>
 				</View>
 			)}
 			<View
