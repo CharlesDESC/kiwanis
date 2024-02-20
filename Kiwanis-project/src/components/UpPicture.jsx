@@ -1,7 +1,9 @@
 import * as ImagePicker from "expo-image-picker";
-import { View, PermissionsAndroid, Platform, Image } from "react-native";
+import { View, PermissionsAndroid, Platform, Image, Alert } from "react-native";
 import { Text, Button } from "react-native-paper";
 import React, { useState } from "react";
+import { auth } from "../../firebaseConfig";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const UpPicture = () => {
 	const [imageUri, setImageUri] = useState(null);
@@ -16,7 +18,6 @@ export const UpPicture = () => {
 						message: "App needs camera permission",
 					}
 				);
-				// Si la permission est refusée
 				if (granted === PermissionsAndroid.RESULTS.GRANTED) {
 					console.log("Camera permission given");
 					takePhoto();
@@ -24,13 +25,12 @@ export const UpPicture = () => {
 					console.log("Camera permission denied");
 				}
 			} catch (err) {
-				conole.warn(err);
+				console.warn(err);
 			}
 		} else {
 			console.log("Camera permission denied");
 		}
 		if (Platform.OS === "ios") {
-			// Demande de permission pour iOS
 			const { status } = await ImagePicker.requestCameraPermissionsAsync();
 			if (status === "granted") {
 				console.log("Camera permission given");
@@ -52,7 +52,7 @@ export const UpPicture = () => {
 		if (!result.cancelled) {
 			console.log(result);
 			console.log(result.uri);
-			setImageUri(result.assets[0].uri);
+			setImageUri(result.uri);
 		}
 	};
 
@@ -66,14 +66,50 @@ export const UpPicture = () => {
 
 		if (!result.cancelled) {
 			console.log(result);
-			console.log(result.assets[0].uri);
 			console.log(result.uri);
-			setImageUri(result.assets[0].uri);
+			setImageUri(result.uri);
 		}
 	};
 
 	const postPhoto = async () => {
-		console.log("Not yet !");
+		if (!imageUri) {
+			console.log("No image to upload.");
+			return;
+		}
+		const uid = auth.currentUser.uid;
+		const uploadUri =
+			Platform.OS === "ios" ? imageUri.replace("file://", "") : imageUri;
+		let filename = uploadUri.substring(uploadUri.lastIndexOf("/") + 1);
+		const extension = filename.split(".").pop();
+		const name = filename.split(".").slice(0, -1).join(".");
+		filename = `${uid}_${name}${Date.now()}.${extension}`;
+
+		try {
+			const response = await fetch(uploadUri);
+			const blob = await response.blob();
+
+			const storage = getStorage();
+			const storageRef = ref(storage, `user_uploads/${uid}/${filename}`);
+			await uploadBytes(storageRef, blob);
+
+			const downloadURL = await getDownloadURL(storageRef);
+			console.log("File available at", downloadURL);
+
+			Alert.alert(
+				"Success",
+				"Your photo has been uploaded successfully!",
+				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
+				{ cancelable: false }
+			);
+		} catch (e) {
+			console.log(e);
+			Alert.alert(
+				"Error",
+				"An error occurred while uploading the photo. Please try again later.",
+				[{ text: "OK", onPress: () => console.log("OK Pressed") }],
+				{ cancelable: false }
+			);
+		}
 	};
 
 	return (
@@ -86,12 +122,8 @@ export const UpPicture = () => {
 				backgroundColor: "white",
 			}}
 		>
-			<Text
-				style={{
-					textAlign: "center",
-				}}
-			>
-				Welcome to the Picutre Screen!
+			<Text style={{ textAlign: "center" }}>
+				Welcome to the Picture Screen!
 			</Text>
 			<Button mode='contained' onPress={choosePhotoFromLibrary}>
 				<Text>Choose from Library</Text>
@@ -100,13 +132,7 @@ export const UpPicture = () => {
 			<Button mode='contained' onPress={requestCameraPermission}>
 				<Text>Take a Photo</Text>
 			</Button>
-			<Text
-				style={{
-					textAlign: "center",
-				}}
-			>
-				Your photo :
-			</Text>
+			<Text style={{ textAlign: "center" }}>Your photo :</Text>
 
 			{imageUri && (
 				<Image
@@ -126,6 +152,10 @@ export const UpPicture = () => {
 			<Button mode='contained' onPress={postPhoto}>
 				<Text>Validate</Text>
 			</Button>
+
+			<Text style={{ textAlign: "center", marginTop: 20 }}>
+				Min: 2584x1946 pixels, landscape format only!
+			</Text>
 		</View>
 	);
 };
