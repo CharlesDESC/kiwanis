@@ -36,8 +36,8 @@ Le Concours Photo Kiwanis vise à permettre aux élèves du CM2 à la terminale 
 
 ## Contributeurs
 
-- [Théo Catala]([https://github.com/TheoCtla])
-- [Charles Deschamps]([https://github.com/CharlesDESC])
-- [Mahaut Windal]([https://github.com/mahaut1])
-- [Zaher Madi]([https://github.com/ZaherMadi])
+- [Théo Catala](https://github.com/TheoCtla)
+- [Charles Deschamps](https://github.com/CharlesDESC)
+- [Mahaut Windal](https://github.com/mahaut1)
+- [Zaher Madi](https://github.com/ZaherMadi)
 
