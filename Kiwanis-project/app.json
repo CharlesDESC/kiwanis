@@ -6,7 +6,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.",
     "orientation": "portrait",
     "icon": "./src/assets/KiwanisLogo.png",
     "userInterfaceStyle": "light",
@@ -22,6 +22,8 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": ["CAMERA"],
+
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/KiwanisLogo.png",
         "backgroundColor": "#ffffff"
