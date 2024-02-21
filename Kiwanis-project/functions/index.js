@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const {getDoc} = require("firebase/firestore");
 
 if (admin.apps.length === 0) {
   admin.initializeApp();
@@ -53,6 +54,14 @@ exports.processParentApproval = functions.firestore
           dateOfBirth: newValue.dateOfBirth,
           activated: true,
         };
+
+        getDoc(admin.firestore()
+            .collection("mailActivations").doc(uid)).then((doc) => {
+          if (doc.exists) {
+            admin.firestore().collection("mailActivations")
+                .doc(uid).update("authorized", true);
+          }
+        });
 
         const userRef = admin.firestore().collection("users").doc(uid);
         const doc = await userRef.get();

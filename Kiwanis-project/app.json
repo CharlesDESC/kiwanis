@@ -1,13 +1,17 @@
 {
   "expo": {
-    "name": "Kiwanis-project",
-    "slug": "Kiwanis-project",
+    "name": "Kiwanis-Photos",
+    "slug": "Kiwanis-Photos",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/KiwanisLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/KiwanisLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +23,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/KiwanisLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.charly_des06.KiwanisPhotos"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "010e1654-aca3-44f5-9ae0-772b751f043d"
+      }
     }
   }
 }

@@ -13,7 +13,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../firebaseConfig";
-import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 const categories = ["École", "Collège", "Lycée"];

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
+
+import { getDocs, where, collection } from "firebase/firestore";
+
 import { TextInput, Button } from "react-native-paper";
 
 export const LoginScreen = () => {
@@ -11,6 +14,16 @@ export const LoginScreen = () => {
 	const navigation = useNavigation();
 
 	const handleLogin = async () => {
+		try {
+			const userRow = await getDocs(
+				collection(db, "mailActivations"),
+				where("email", "==", email)
+			);
+			console.log(userRow.docs[0].data().authorized);
+		} catch (error) {
+			console.log(error);
+		}
+
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			Alert.alert("Succès", "Connexion réussie");
