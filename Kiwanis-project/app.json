@@ -21,9 +21,10 @@
 
 			"adaptiveIcon": {
 				"foregroundImage": "./src/assets/KiwanisLogo.png",
-				"backgroundColor": "#ffffff"
+				"backgroundColor": "#0B3364"
 			},
-			"package": "com.charly_des06.KiwanisPhotos"
+			"package": "com.charly_des06.KiwanisPhotos",
+			"versionCode": 2
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
