@@ -1,42 +1,37 @@
 {
-  "expo": {
-    "name": "Kiwanis-Photos",
-    "slug": "Kiwanis-Photos",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "1.0.",
-    "orientation": "portrait",
-    "icon": "./src/assets/KiwanisLogo.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./src/assets/KiwanisLogo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "permissions": ["CAMERA"],
+	"expo": {
+		"name": "Kiwanis-Photos",
+		"slug": "Kiwanis-Photos",
+		"platforms": ["ios", "android"],
+		"version": "1.0.2",
+		"orientation": "portrait",
+		"icon": "./src/assets/KiwanisLogo.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./src/assets/KiwanisLogo.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"permissions": ["CAMERA"],
 
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/KiwanisLogo.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.charly_des06.KiwanisPhotos"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "010e1654-aca3-44f5-9ae0-772b751f043d"
-      }
-    }
-  }
+			"adaptiveIcon": {
+				"foregroundImage": "./src/assets/KiwanisLogo.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.charly_des06.KiwanisPhotos"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "010e1654-aca3-44f5-9ae0-772b751f043d"
+			}
+		}
+	}
 }
