@@ -100,7 +100,7 @@ export const Navbar = () => {
 			{isMenuOpen && (
 				<View style={styles.menuContent}>
 					<TouchableOpacity style={styles.menuText} onPress={() => logout()}>
-						<Text>déconection</Text>
+						{isLogged ? <Text>déconnexion</Text> : <Text>connexion</Text>}
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.menuText}
