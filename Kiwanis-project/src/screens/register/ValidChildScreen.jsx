@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Text, Button } from "react-native-paper";
 
 export const ValidChildScreen = ({ route, navigation }) => {
 	const { userUid } = route.params;
@@ -13,7 +14,7 @@ export const ValidChildScreen = ({ route, navigation }) => {
 				onPress={() => {
 					navigation.reset({
 						index: 0,
-						routes: [{ name: "Home" }],
+						routes: [{ name: "Welcome" }],
 					});
 				}}
 			/>

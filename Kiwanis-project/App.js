@@ -10,10 +10,14 @@ import { WelcomeScreen } from "./src/screens/WelcomeScreen";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import { Header, HomeHeader } from "./src/components/Header";
 import { HomeScreen } from "./src/screens/HomeScreen";
+import { IsLogProvider } from "./src/contexts/IsLogContext";
+import { useIsLog } from "./src/hooks/useIsLog";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+	const { isLogged, setIsLogged } = useIsLog();
+
 	const NavTheme = {
 		...NavDefTheme,
 		colors: {
@@ -35,33 +39,35 @@ export default function App() {
 
 	return (
 		<PaperProvider theme={Theme}>
-			<NavigationContainer theme={NavTheme}>
-				<Stack.Navigator
-					initialRouteName='Welcome'
-					screenOptions={{
-						headerStyle: {
-							backgroundColor: NavTheme.colors.background,
-							headerShown: true,
-						},
-					}}
-				>
-					<Stack.Screen
-						name='Welcome'
-						component={WelcomeScreen}
-						options={{ header: () => <Header /> }}
-					/>
-					<Stack.Screen
-						name='AuthStack'
-						component={AuthStack}
-						options={{ header: () => <Header /> }}
-					/>
-					<Stack.Screen
-						name='Home'
-						component={HomeScreen}
-						options={{ header: () => <HomeHeader /> }}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
+			<IsLogProvider values={{ isLogged, setIsLogged }}>
+				<NavigationContainer theme={NavTheme}>
+					<Stack.Navigator
+						initialRouteName='Welcome'
+						screenOptions={{
+							headerStyle: {
+								backgroundColor: NavTheme.colors.background,
+								headerShown: true,
+							},
+						}}
+					>
+						<Stack.Screen
+							name='Welcome'
+							component={WelcomeScreen}
+							options={{ header: () => <Header /> }}
+						/>
+						<Stack.Screen
+							name='AuthStack'
+							component={AuthStack}
+							options={{ header: () => <Header /> }}
+						/>
+						<Stack.Screen
+							name='Home'
+							component={HomeScreen}
+							options={{ header: () => <HomeHeader /> }}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</IsLogProvider>
 		</PaperProvider>
 	);
 }

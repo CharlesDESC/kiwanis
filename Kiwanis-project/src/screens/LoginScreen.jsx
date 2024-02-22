@@ -7,11 +7,13 @@ import { auth, db } from "../../firebaseConfig";
 import { getDocs, where, collection } from "firebase/firestore";
 
 import { TextInput, Button } from "react-native-paper";
+import { useLogContext } from "../contexts/IsLogContext";
 
 export const LoginScreen = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigation = useNavigation();
+	const { setIsLogged } = useLogContext();
 
 	const handleLogin = async () => {
 		try {
@@ -27,7 +29,11 @@ export const LoginScreen = () => {
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			Alert.alert("Succès", "Connexion réussie");
-			navigation.navigate("Home");
+			setIsLogged(true);
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "Home" }],
+			});
 		} catch (error) {
 			Alert.alert("Erreur de connexion", error.message);
 		}

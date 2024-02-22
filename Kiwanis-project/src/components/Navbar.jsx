@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import { UpPicture } from "./UpPicture";
+import { useLogContext } from "../contexts/IsLogContext";
+import { useNavigation } from "@react-navigation/native";
 
 export const Navbar = () => {
+	const { isLogged, setIsLogged } = useLogContext();
 	const [isMenuOpen, setMenuOpen] = useState(false);
 	const [navbarHeight] = useState(new Animated.Value(70));
 	const [showReglementDetails, setShowReglementDetails] = useState(false);
@@ -17,6 +20,7 @@ export const Navbar = () => {
 	const [isFinish, setIsFinish] = useState(false);
 	const [showMentionsLegalesDetails, setShowMentionsLegalesDetails] =
 		useState(false);
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		setIsFinish(false);
@@ -73,6 +77,14 @@ export const Navbar = () => {
 		setShowAddPicture(!showAddPicture);
 	};
 
+	const logout = () => {
+		setIsLogged(false);
+		navigation.reset({
+			index: 0,
+			routes: [{ name: "Welcome" }],
+		});
+	};
+
 	return (
 		<Animated.View
 			style={{
@@ -87,6 +99,9 @@ export const Navbar = () => {
 		>
 			{isMenuOpen && (
 				<View style={styles.menuContent}>
+					<TouchableOpacity style={styles.menuText} onPress={() => logout()}>
+						<Text>déconection</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.menuText}
 						onPress={() => showReglement()}
@@ -250,12 +265,14 @@ export const Navbar = () => {
 							style={styles.navbarImage}
 						/>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={displayAddPicture}>
-						<Image
-							source={require("../assets/photoLogo.png")}
-							style={styles.navbarImage}
-						/>
-					</TouchableOpacity>
+					{isLogged && (
+						<TouchableOpacity onPress={displayAddPicture}>
+							<Image
+								source={require("../assets/photoLogo.png")}
+								style={styles.navbarImage}
+							/>
+						</TouchableOpacity>
+					)}
 					<TouchableOpacity onPress={() => toggleMenu()}>
 						<Image
 							source={
