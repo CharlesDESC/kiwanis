@@ -126,7 +126,7 @@ export const UpPicture = () => {
 				contentStyle={{ backgroundColor: "#0B3364" }}
 				onPress={choosePhotoFromLibrary}
 			>
-				Choose from Library
+				Selectionner depuis la galerie
 			</Button>
 
 			<Button
@@ -134,9 +134,9 @@ export const UpPicture = () => {
 				onPress={requestCameraPermission}
 				contentStyle={{ backgroundColor: "#0B3364" }}
 			>
-				<Text>Take a Photo</Text>
+				Prendre une photo
 			</Button>
-			<Text style={{ textAlign: "center" }}>Your photo :</Text>
+			<Text style={{ textAlign: "center" }}>Votre photo</Text>
 
 			{imageUri && (
 				<Image
@@ -153,12 +153,12 @@ export const UpPicture = () => {
 				/>
 			)}
 
-			<Button mode='contained' onPress={postPhoto}>
-				<Text>Validate</Text>
+			<Button mode='outlined' onPress={postPhoto}>
+				<Text> Valider</Text>
 			</Button>
 
 			<Text style={{ textAlign: "center", marginTop: 20 }}>
-				Min: 2584x1946 pixels, landscape format only!
+				taille: 2584x1946 pixels, format paysage uniquement!
 			</Text>
 		</View>
 	);
