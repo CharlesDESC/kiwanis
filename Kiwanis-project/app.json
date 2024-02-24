@@ -3,7 +3,7 @@
 		"name": "Kiwanis-Photos",
 		"slug": "Kiwanis-Photos",
 		"platforms": ["ios", "android"],
-		"version": "1.0.2",
+		"version": "1.0.4",
 		"orientation": "portrait",
 		"icon": "./src/assets/KiwanisLogo.png",
 		"userInterfaceStyle": "light",
@@ -24,7 +24,7 @@
 				"backgroundColor": "#0B3364"
 			},
 			"package": "com.charly_des06.KiwanisPhotos",
-			"versionCode": 2
+			"versionCode": 4
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
