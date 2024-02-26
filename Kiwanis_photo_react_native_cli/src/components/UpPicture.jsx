@@ -66,8 +66,8 @@ export const UpPicture = () => {
 
     if (!result.cancelled) {
       console.log('result', result);
-      console.log(result.uri);
-      setImageUri(result.uri);
+      console.log(result.assets[0].uri);
+      setImageUri(result.assets[0].uri);
     }
   };
 
