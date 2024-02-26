@@ -1,6 +1,0 @@
-{
-  "projects": {
-    "default": "kiwanis-dev",
-    "test":"kiwanis-test"
-  }
-}
