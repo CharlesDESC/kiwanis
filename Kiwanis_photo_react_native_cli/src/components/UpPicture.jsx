@@ -43,31 +43,31 @@ export const UpPicture = () => {
 
   const takePhoto = async () => {
     const result = await launchCamera({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: 'photo',
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.cancelled) {
-      console.log(result);
-      console.log(result.uri);
-      setImageUri(result.uri);
+      console.log('result', result);
+      console.log('uri', result.assets[0].uri);
+      setImageUri(result.assets[0].uri);
     }
   };
 
   const choosePhotoFromLibrary = async () => {
     let result = await launchImageLibrary({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: 'photo',
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.cancelled) {
-      console.log(result);
-      console.log(result.uri);
-      setImageUri(result.uri);
+      console.log('result', result);
+      console.log(result.assets[0].uri);
+      setImageUri(result.assets[0].uri);
     }
   };
 

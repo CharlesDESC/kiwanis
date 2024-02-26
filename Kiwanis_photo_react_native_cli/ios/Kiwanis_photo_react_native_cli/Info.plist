@@ -32,6 +32,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	    <key>NSCameraUsageDescription</key>
+    <string>Cette application nécessite l'accès à la caméra pour prendre des photos.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Cette application nécessite l'accès à la galerie de photos pour sélectionner des images.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
