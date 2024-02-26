@@ -1,4 +1,4 @@
-package com.kiwanis_photo_react_native_cli
+package com.charly_des06.KiwanisPhotos
 
 import android.app.Application
 import com.facebook.react.PackageList

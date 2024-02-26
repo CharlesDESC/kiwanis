@@ -74,20 +74,20 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.kiwanis_photo_react_native_cli"
+    namespace "com.charly_des06.KiwanisPhotos"
     defaultConfig {
-        applicationId "com.kiwanis_photo_react_native_cli"
+        applicationId "com.charly_des06.KiwanisPhotos"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.1"
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('firstRelease.keystore')
+            storePassword 'Kiwanis2024!'
+            keyAlias 'firstRelease'
+            keyPassword 'Kiwanis2024!'
         }
     }
     buildTypes {
