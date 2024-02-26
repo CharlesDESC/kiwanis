@@ -12,6 +12,7 @@ import {createUserWithEmailAndPassword} from 'firebase/auth';
 import {addDoc, collection} from 'firebase/firestore';
 import {auth, db} from '../../../firebaseConfig';
 import uuid from 'react-native-uuid';
+import { log } from 'firebase-functions/logger';
 
 const categories = ['École', 'Collège', 'Lycée'];
 
@@ -63,10 +64,10 @@ export const RegisterChildScreen = ({navigation}) => {
           routes: [{name: 'Welcome'}],
         });
       } else {
+        console.log(userDataWithoutPassword)
         // Ajoutez ici les informations de l'utilisateur, sans le mot de passe, à 'users'
         await addDoc(collection(db, 'users'), {
           ...userDataWithoutPassword, // Utilisez les données sans le mot de passe
-          dateOfBirth: dateOfBirth.toISOString(),
           activated: true,
         });
         navigation.navigate('ValidChild', {userUid: userCredential.user.uid});
