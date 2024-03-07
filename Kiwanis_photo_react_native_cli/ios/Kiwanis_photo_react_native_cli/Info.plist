@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSPrivacyTracking</key>
+	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -26,16 +30,15 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	    <key>NSCameraUsageDescription</key>
-    <string>Cette application nécessite l'accès à la caméra pour prendre des photos.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Cette application nécessite l'accès à la galerie de photos pour sélectionner des images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cette application nécessite l&apos;accès à la caméra pour prendre des photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cette application nécessite l&apos;accès à la galerie de photos pour sélectionner des images.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
