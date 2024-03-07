@@ -4,11 +4,7 @@ import {Text, Button} from 'react-native-paper';
 import React, {useState} from 'react';
 import {auth} from '../../firebaseConfig';
 import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage';
-import { getFirestore, doc, deleteDoc } from "firebase/firestore";
-import { getAuth, deleteUser } from "firebase/auth";
 
-const firestore = getFirestore(); // Assurez-vous d'initialiser Firestore
-const auth = getAuth(); // Assurez-vous d'initialiser Auth
 
 const handleDeleteAccount = async () => {
   const user = auth.currentUser;
@@ -18,20 +14,18 @@ const handleDeleteAccount = async () => {
       "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
       [
         { text: "Annuler" },
-        { text: "Supprimer", onPress: () => deleteUserAccount(user) }
+        { text: "Supprimer", onPress: () => deleteUserAccount() }
       ]
     );
   }
 };
 
-const deleteUserAccount = async (user) => {
+const deleteUserAccount = async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
   try {
-    // Supprimez d'abord les données utilisateur de Firestore
-    await deleteDoc(doc(firestore, "users", user.uid));
-
-    // Ensuite, supprimez le compte utilisateur
-    await deleteUser(user);
-
+    await user.delete();
     Alert.alert("Compte supprimé", "Votre compte a été supprimé avec succès.");
     // Redirigez ou déconnectez l'utilisateur ici
   } catch (error) {
@@ -39,6 +33,7 @@ const deleteUserAccount = async (user) => {
     Alert.alert("Erreur", "Impossible de supprimer le compte.");
   }
 };
+
 
 
 export const UpPicture = () => {
@@ -97,21 +92,7 @@ export const UpPicture = () => {
     );
   };
   
-  const deleteUserAccount = async () => {
-    try {
-      const user = auth.currentUser;
-      const userRef = admin.firestore().collection('users').doc(user.uid);
-     await userRef.delete();
-  
-      // Suppression du compte de l'utilisateur
-      await user.delete();
-      Alert.alert("Compte supprimé", "Votre compte a été supprimé avec succès.");
-      // Redirigez ou mettez à jour l'état de l'application selon les besoins
-    } catch (error) {
-      console.error("Erreur lors de la suppression du compte :", error);
-      Alert.alert("Erreur", "Une erreur est survenue lors de la suppression de votre compte.");
-    }
-  };
+
   
   const choosePhotoFromLibrary = async () => {
     let result = await launchImageLibrary({
