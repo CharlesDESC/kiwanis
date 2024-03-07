@@ -30,7 +30,15 @@ export const UpPicture = () => {
     } else {
       console.log('Camera permission denied');
     }
-
+    if (Platform.OS === 'ios') {
+      const {status} = await ImagePicker.requestCameraPermissionsAsync();
+      if (status === 'granted') {
+        console.log('Camera permission given');
+        takePhoto();
+      } else {
+        console.warn('Camera permission denied');
+      }
+    }
   };
 
   const takePhoto = async () => {
