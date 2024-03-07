@@ -47,7 +47,36 @@ export const UpPicture = () => {
       setImageUri(result.assets[0].uri);
     }
   };
-
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Confirmation",
+      "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        { text: "Supprimer", onPress: () => deleteUserAccount() }
+      ]
+    );
+  };
+  
+  const deleteUserAccount = async () => {
+    try {
+      const user = auth.currentUser;
+      const userRef = admin.firestore().collection('users').doc(user.uid);
+     await userRef.delete();
+  
+      // Suppression du compte de l'utilisateur
+      await user.delete();
+      Alert.alert("Compte supprimé", "Votre compte a été supprimé avec succès.");
+      // Redirigez ou mettez à jour l'état de l'application selon les besoins
+    } catch (error) {
+      console.error("Erreur lors de la suppression du compte :", error);
+      Alert.alert("Erreur", "Une erreur est survenue lors de la suppression de votre compte.");
+    }
+  };
+  
   const choosePhotoFromLibrary = async () => {
     let result = await launchImageLibrary({
       mediaTypes: 'photo',
@@ -149,6 +178,13 @@ export const UpPicture = () => {
       <Text style={{textAlign: 'center', marginTop: 20}}>
         taille: 2584x1946 pixels, format paysage uniquement!
       </Text>
+      <Button
+  mode="outlined"
+  onPress={handleDeleteAccount}
+  contentStyle={{ backgroundColor: '#0B3364' }}>
+  Supprimer mon compte
+</Button>
+
     </View>
   );
 };
