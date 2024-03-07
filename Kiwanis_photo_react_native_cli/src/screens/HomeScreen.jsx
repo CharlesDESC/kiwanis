@@ -51,7 +51,7 @@ export const HomeScreen = () => {
 						<View>
 							<Text variant='titleSmall'>4. Dates Importantes: </Text>
 							<Text variant='bodyMedium'>
-								Vous pouvez soumettre vos photos du 15 février au 15 mars 2024.
+								Vous pouvez soumettre vos photos du 06 Mars au 04 Avril 2024.
 								Les gagnants seront annoncés lors du congrès national du Kiwanis
 								le 11 mai 2024.
 							</Text>
