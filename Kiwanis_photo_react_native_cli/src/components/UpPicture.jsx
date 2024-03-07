@@ -4,6 +4,42 @@ import {Text, Button} from 'react-native-paper';
 import React, {useState} from 'react';
 import {auth} from '../../firebaseConfig';
 import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import { getAuth, deleteUser } from "firebase/auth";
+
+const firestore = getFirestore(); // Assurez-vous d'initialiser Firestore
+const auth = getAuth(); // Assurez-vous d'initialiser Auth
+
+const handleDeleteAccount = async () => {
+  const user = auth.currentUser;
+  if (user) {
+    Alert.alert(
+      "Supprimer le compte",
+      "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+      [
+        { text: "Annuler" },
+        { text: "Supprimer", onPress: () => deleteUserAccount(user) }
+      ]
+    );
+  }
+};
+
+const deleteUserAccount = async (user) => {
+  try {
+    // Supprimez d'abord les données utilisateur de Firestore
+    await deleteDoc(doc(firestore, "users", user.uid));
+
+    // Ensuite, supprimez le compte utilisateur
+    await deleteUser(user);
+
+    Alert.alert("Compte supprimé", "Votre compte a été supprimé avec succès.");
+    // Redirigez ou déconnectez l'utilisateur ici
+  } catch (error) {
+    console.error("Erreur de suppression du compte", error);
+    Alert.alert("Erreur", "Impossible de supprimer le compte.");
+  }
+};
+
 
 export const UpPicture = () => {
   const [imageUri, setImageUri] = useState(null);
@@ -179,11 +215,13 @@ export const UpPicture = () => {
         taille: 2584x1946 pixels, format paysage uniquement!
       </Text>
       <Button
-  mode="outlined"
+  mode="contained"
   onPress={handleDeleteAccount}
-  contentStyle={{ backgroundColor: '#0B3364' }}>
+  contentStyle={{ backgroundColor: '#D9534F' }}
+>
   Supprimer mon compte
 </Button>
+
 
     </View>
   );
