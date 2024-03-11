@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "LOGO_KIWANIS_40x40.png",
+      "filename" : "Logo_Kiwanis_fond_bleu40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "LOGO_KIWANIS_60x60.png",
+      "filename" : "Logo_Kiwanis_fond_bleu60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "LOGO_KIWANIS_58x58.png",
+      "filename" : "Logo_Kiwanis_fond_bleu58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "LOGO_KIWANIS_87x87.png",
+      "filename" : "Logo_Kiwanis_fond_bleu87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "LOGO_KIWANIS_80x80.png",
+      "filename" : "Logo_Kiwanis_fond_bleu80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "LOGO_KIWANIS_120x120 1.png",
+      "filename" : "Logo_Kiwanis_fond_bleu120 1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "LOGO_KIWANIS_120x120.png",
+      "filename" : "Logo_Kiwanis_fond_bleu120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "LOGO_KIWANIS_180x180.png",
+      "filename" : "Logo_Kiwanis_fond_bleu180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "LOGO_KIWANIS_1024*1024.png",
+      "filename" : "Logo_Kiwanis_fond_bleu1024.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
