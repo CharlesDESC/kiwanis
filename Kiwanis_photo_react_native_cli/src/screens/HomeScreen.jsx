@@ -57,7 +57,7 @@ export const HomeScreen = () => {
 							</Text>
 						</View>
 						<View>
-							<Text variant='titleSmall'>9. Prix et Récompenses: </Text>
+							<Text variant='titleSmall'>5. Prix et Récompenses: </Text>
 							<Text variant='bodyMedium'>
 								Les gagnants recevront des prix et leurs photos seront exposées
 								lors du congrès national du Kiwanis.
