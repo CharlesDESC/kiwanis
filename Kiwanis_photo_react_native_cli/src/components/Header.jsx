@@ -5,7 +5,7 @@ import { Text } from "react-native-paper";
 export const Header = () => {
 	return (
 		<View style={styles.container}>
-			<Image source={require("../assets/logo2.png")} style={styles.image} />
+			<Image source={require("../assets/LOGO_KIWANIS_150x150.png")} style={styles.image} />
 			<Text variant='titleLarge' style={styles.text}>
 				Kiwanis Antibes Juan les pins concours photo
 			</Text>
@@ -18,7 +18,7 @@ export const HomeHeader = () => {
 		<View style={homeStyles.container}>
 			<View style={homeStyles.topContainer}>
 				<Image
-					source={require("../assets/logo2.png")}
+					source={require("../assets/LOGO_KIWANIS_150x150.png")}
 					style={homeStyles.image}
 				/>
 				<View style={homeStyles.textContainer}>

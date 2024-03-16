@@ -36,9 +36,9 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Cette application nécessite l&apos;accès à la caméra pour prendre des photos.</string>
+	<string>Cette application nécessite l&apos;accès à la caméra pour prendre des photos qui serviront à participer au concours photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Cette application nécessite l&apos;accès à la galerie de photos pour sélectionner des images.</string>
+	<string>Cette application nécessite l&apos;accès à la galerie de photos pour sélectionner des images qui serviront à participer au concours photo.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>

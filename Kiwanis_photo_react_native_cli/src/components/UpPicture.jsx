@@ -5,6 +5,37 @@ import React, {useState} from 'react';
 import {auth} from '../../firebaseConfig';
 import {getStorage, ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 
+
+const handleDeleteAccount = async () => {
+  const user = auth.currentUser;
+  if (user) {
+    Alert.alert(
+      "Supprimer le compte",
+      "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+      [
+        { text: "Annuler" },
+        { text: "Supprimer", onPress: () => deleteUserAccount() }
+      ]
+    );
+  }
+};
+
+const deleteUserAccount = async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    await user.delete();
+    Alert.alert("Compte supprimé", "Votre compte a été supprimé avec succès.");
+    // Redirigez ou déconnectez l'utilisateur ici
+  } catch (error) {
+    console.error("Erreur de suppression du compte", error);
+    Alert.alert("Erreur", "Impossible de supprimer le compte.");
+  }
+};
+
+
+
 export const UpPicture = () => {
   const [imageUri, setImageUri] = useState(null);
 
@@ -30,15 +61,7 @@ export const UpPicture = () => {
     } else {
       console.log('Camera permission denied');
     }
-    if (Platform.OS === 'ios') {
-      const {status} = await ImagePicker.requestCameraPermissionsAsync();
-      if (status === 'granted') {
-        console.log('Camera permission given');
-        takePhoto();
-      } else {
-        console.warn('Camera permission denied');
-      }
-    }
+   
   };
 
   const takePhoto = async () => {
@@ -55,7 +78,22 @@ export const UpPicture = () => {
       setImageUri(result.assets[0].uri);
     }
   };
+  const handleDeleteAccount = async () => {
+    Alert.alert(
+      "Confirmation",
+      "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+      [
+        {
+          text: "Annuler",
+          style: "cancel"
+        },
+        { text: "Supprimer", onPress: () => deleteUserAccount() }
+      ]
+    );
+  };
+  
 
+  
   const choosePhotoFromLibrary = async () => {
     let result = await launchImageLibrary({
       mediaTypes: 'photo',
@@ -129,7 +167,7 @@ export const UpPicture = () => {
 
       <Button
         mode="contained"
-        onPress={requestCameraPermission}
+        onPress={takePhoto}
         contentStyle={{backgroundColor: '#0B3364'}}>
         Prendre une photo
       </Button>
@@ -157,6 +195,15 @@ export const UpPicture = () => {
       <Text style={{textAlign: 'center', marginTop: 20}}>
         taille: 2584x1946 pixels, format paysage uniquement!
       </Text>
+      <Button
+  mode="contained"
+  onPress={handleDeleteAccount}
+  contentStyle={{ backgroundColor: '#D9534F' }}
+>
+  Supprimer mon compte
+</Button>
+
+
     </View>
   );
 };
